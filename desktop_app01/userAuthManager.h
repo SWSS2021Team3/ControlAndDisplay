@@ -10,4 +10,5 @@ private:
 public:
 	UserAuthManager(CommManagerInterface* comm) : commManager(comm) {}
 	bool login(const string& username, const string& password);
+	void logout();
 };

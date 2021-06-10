@@ -1,21 +1,23 @@
 #pragma once
 
 #include <opencv2/opencv.hpp>
-#include "NetworkTCP.h"
-#include "TcpSendRecvJpeg.h"
+#include "commManager.h"
+#include "userAuthManager.h"
 
 class AttendanceChecker
 {
 private:
-	TTcpConnectedPort* connection = nullptr;
+	CommManager* commManager = nullptr;
+	UserAuthManager* userAuthManager = nullptr;
+
 	cv::Mat mat_frame;
 
 public:
 	AttendanceChecker();
 	~AttendanceChecker();
-	bool connect(const char* hostname, const char* portname);
+	bool login(const string& username, const string& password);
 	bool isConnected();
 	bool recvVideo();
 	cv::Mat& getVideoFrame();
-	void disconnect();
+	void logout();
 };

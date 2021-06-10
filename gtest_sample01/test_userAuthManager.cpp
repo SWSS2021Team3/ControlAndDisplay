@@ -10,6 +10,7 @@ class MockCommManager : public CommManagerInterface {
 public:
 	MOCK_METHOD(bool, connect, (), (override));
 	MOCK_METHOD(bool, login, (const string& username, const string& password), (override));
+	MOCK_METHOD(void, disconnect, (), (override));
 };
 TEST(Login, login_success_with_correct_password) {
 	std::string username = "user1";
@@ -45,4 +46,13 @@ TEST(Login, login_failed_when_connection_failed) {
 	UserAuthManager uam(&commManager);
 
 	EXPECT_FALSE(uam.login("user1", "pwd"));
+}
+
+TEST(Logout, should_be_disconnect_when_logout) {
+	MockCommManager commManager;
+	EXPECT_CALL(commManager, disconnect());
+
+	UserAuthManager uam(&commManager);
+
+	uam.logout();
 }

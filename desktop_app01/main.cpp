@@ -111,7 +111,7 @@ BOOL CALLBACK DlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 				int res = MessageBox(hWndDlg, L"Connect ?", L"", MB_YESNO);
 				if (res == 6)
 				{
-					bool connected = acs.connect("127.0.0.1", "5000");
+					bool connected = acs.login("username", "password");
 					if (connected)
 					{
 						SetTimer(hWndDlg, 1000, 30, (TIMERPROC)RecvVideo);
@@ -124,7 +124,7 @@ BOOL CALLBACK DlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 				if (res == 6)
 				{
 					KillTimer(hWndDlg, 1000);
-					acs.disconnect();
+					acs.logout();
 				}
 			}
 			break;

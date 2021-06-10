@@ -158,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="attendanceChecker.cpp" />
+    <ClCompile Include="commManager.cpp" />
     <ClCompile Include="userAuthManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NetworkTCP.cpp" />

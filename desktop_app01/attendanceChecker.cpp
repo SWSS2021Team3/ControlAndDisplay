@@ -1,38 +1,37 @@
 #include "attendanceChecker.h"
 
-AttendanceChecker::AttendanceChecker() {}
-AttendanceChecker::~AttendanceChecker()
+AttendanceChecker::AttendanceChecker()
 {
-	if (isConnected())
-	{
-		disconnect();
-	}
+	commManager = new CommManager();
+	userAuthManager = new UserAuthManager(commManager);
 }
 
-bool AttendanceChecker::connect(const char* hostname, const char* portname)
+AttendanceChecker::~AttendanceChecker()
 {
-	if ((connection = OpenTcpConnection(hostname, portname)) == NULL)
-		return false;
-	return true;
+	delete commManager;
+}
+
+bool AttendanceChecker::login(const string& username, const string& password)
+{
+	return userAuthManager->login(username, password);
 }
 
 bool AttendanceChecker::isConnected()
 {
-	return connection != nullptr;
+	return commManager->isConnected();
 }
 
 bool AttendanceChecker::recvVideo()
 {
-	bool result = TcpRecvImageAsJpeg(connection, &mat_frame);
-	return result;
+	return commManager->recvVideo(&mat_frame);
 }
+
 cv::Mat& AttendanceChecker::getVideoFrame()
 {
 	return mat_frame;
 }
 
-void AttendanceChecker::disconnect()
+void AttendanceChecker::logout()
 {
-	CloseTcpConnectedPort(&connection);
-	connection = nullptr;
+	userAuthManager->logout();
 }
