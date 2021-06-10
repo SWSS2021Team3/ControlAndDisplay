@@ -1,7 +1,7 @@
-#include "client.h"
+#include "attendanceChecker.h"
 
-Client::Client() {}
-Client::~Client()
+AttendanceChecker::AttendanceChecker() {}
+AttendanceChecker::~AttendanceChecker()
 {
 	if (isConnected())
 	{
@@ -9,29 +9,29 @@ Client::~Client()
 	}
 }
 
-bool Client::connect(const char* hostname, const char* portname)
+bool AttendanceChecker::connect(const char* hostname, const char* portname)
 {
 	if ((connection = OpenTcpConnection(hostname, portname)) == NULL)
 		return false;
 	return true;
 }
 
-bool Client::isConnected()
+bool AttendanceChecker::isConnected()
 {
 	return connection != nullptr;
 }
 
-bool Client::recvVideo()
+bool AttendanceChecker::recvVideo()
 {
 	bool result = TcpRecvImageAsJpeg(connection, &mat_frame);
 	return result;
 }
-cv::Mat& Client::getVideoFrame()
+cv::Mat& AttendanceChecker::getVideoFrame()
 {
 	return mat_frame;
 }
 
-void Client::disconnect()
+void AttendanceChecker::disconnect()
 {
 	CloseTcpConnectedPort(&connection);
 	connection = nullptr;

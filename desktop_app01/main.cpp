@@ -1,8 +1,8 @@
 #include "framework.h"
 #include "resource.h"
-#include "client.h"
+#include "attendanceChecker.h"
 
-Client client;
+AttendanceChecker acs;
 BITMAPINFO* m_pBitmapInfo = nullptr;
 
 BOOL CALLBACK DlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -17,9 +17,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 BOOL CALLBACK RecvVideo(HWND hWnd, UINT message, UINT_PTR upParam, DWORD dwParam)
 {
-	if (!client.recvVideo()) return FALSE;
+	if (!acs.recvVideo()) return FALSE;
 
-	cv::Mat& frame = client.getVideoFrame();
+	cv::Mat& frame = acs.getVideoFrame();
 
 	int bpp = 8 * (int) frame.elemSize();
 
@@ -106,12 +106,12 @@ BOOL CALLBACK DlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 		switch (LOWORD(wParam))
 		{
 		case IDOK:
-			if (!client.isConnected())
+			if (!acs.isConnected())
 			{
 				int res = MessageBox(hWndDlg, L"Connect ?", L"", MB_YESNO);
 				if (res == 6)
 				{
-					bool connected = client.connect("127.0.0.1", "5000");
+					bool connected = acs.connect("127.0.0.1", "5000");
 					if (connected)
 					{
 						SetTimer(hWndDlg, 1000, 30, (TIMERPROC)RecvVideo);
@@ -124,7 +124,7 @@ BOOL CALLBACK DlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 				if (res == 6)
 				{
 					KillTimer(hWndDlg, 1000);
-					client.disconnect();
+					acs.disconnect();
 				}
 			}
 			break;

@@ -4,15 +4,15 @@
 #include "NetworkTCP.h"
 #include "TcpSendRecvJpeg.h"
 
-class Client
+class AttendanceChecker
 {
 private:
 	TTcpConnectedPort* connection = nullptr;
 	cv::Mat mat_frame;
 
 public:
-	Client();
-	~Client();
+	AttendanceChecker();
+	~AttendanceChecker();
 	bool connect(const char* hostname, const char* portname);
 	bool isConnected();
 	bool recvVideo();

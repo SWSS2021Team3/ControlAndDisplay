@@ -27,7 +27,13 @@
     <ClInclude Include="TcpSendRecvJpeg.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="client.h">
+    <ClInclude Include="attendanceChecker.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="commManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="userAuthManager.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -46,7 +52,10 @@
     <ClCompile Include="TcpSendRecvJpeg.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="client.cpp">
+    <ClCompile Include="attendanceChecker.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="userAuthManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

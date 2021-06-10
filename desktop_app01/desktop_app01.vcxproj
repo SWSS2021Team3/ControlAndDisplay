@@ -145,17 +145,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="client.h" />
+    <ClInclude Include="attendanceChecker.h" />
+    <ClInclude Include="commManager.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="NetworkTCP.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="TcpSendRecvJpeg.h" />
+    <ClInclude Include="userAuthManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="desktop_app01.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="client.cpp" />
+    <ClCompile Include="attendanceChecker.cpp" />
+    <ClCompile Include="userAuthManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NetworkTCP.cpp" />
     <ClCompile Include="TcpSendRecvJpeg.cpp" />
