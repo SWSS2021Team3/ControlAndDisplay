@@ -4,11 +4,14 @@ AttendanceChecker::AttendanceChecker()
 {
 	commManager = new CommManager();
 	userAuthManager = new UserAuthManager(commManager);
+	studentController = new StudentController(commManager, userAuthManager);
 }
 
 AttendanceChecker::~AttendanceChecker()
 {
 	delete commManager;
+	delete userAuthManager;
+	delete studentController;
 }
 
 bool AttendanceChecker::login(const string& username, const string& password)
@@ -34,4 +37,14 @@ cv::Mat& AttendanceChecker::getVideoFrame()
 void AttendanceChecker::logout()
 {
 	userAuthManager->logout();
+}
+
+void AttendanceChecker::showFaceImages()
+{
+	studentController->fetchFaces();
+}
+
+vector<cv::Mat>& AttendanceChecker::getFaces()
+{
+	return studentController->getFaces();
 }

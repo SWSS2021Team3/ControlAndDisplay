@@ -3,13 +3,15 @@
 #include <string>
 #include "NetworkTCP.h"
 #include "TcpSendRecvJpeg.h"
+#include "user.h"
 
 using namespace std;
 
 class CommManagerInterface {
 public:
 	virtual bool connect() = 0;
-	virtual bool login(const string& username, const string& password) = 0;
+	virtual User login(const string& username, const string& password) = 0;
+	virtual bool requestFaces(const int uid, const int numberOfImages, vector<cv::Mat>& faces) = 0;
 	virtual void disconnect() = 0;
 };
 
@@ -20,7 +22,8 @@ public:
 	~CommManager();
 	bool connect();
 	bool connect(const string& hostname, const string& portname);
-	bool login(const string& username, const string& password);
+	User login(const string& username, const string& password);
+	bool requestFaces(const int uid, const int numberOfImages, vector<cv::Mat>& faces);
 	void disconnect();
 	bool isConnected();
 	bool recvVideo(cv::Mat* frame);

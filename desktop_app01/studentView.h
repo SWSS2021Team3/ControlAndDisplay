@@ -1,0 +1,19 @@
+#pragma once
+
+#include "framework.h"
+#include "view.h"
+#include "attendanceChecker.h"
+
+class StudentView : public View
+{
+private:
+	AttendanceChecker* acs;
+	BITMAPINFO* m_pBitmapInfo = nullptr;
+
+	INT_PTR DlgProc(UINT message, WPARAM wParam, LPARAM lParam);
+	BOOL eventHandler(HWND hWnd, UINT message, DWORD dwParam);
+public:
+	StudentView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecker* ac);
+	void start();
+	void showFaceImages();
+};

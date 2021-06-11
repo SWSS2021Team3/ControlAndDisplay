@@ -1,37 +1,37 @@
 #include "pch.h"
-#include "../desktop_app01/commManager.h"
 #include "../desktop_app01/userAuthManager.h"
+#include "../desktop_app01/user.h"
+
+#include "mockCommManager.h"
 
 using namespace std;
 using testing::Return;
 using testing::_;
 
-class MockCommManager : public CommManagerInterface {
-public:
-	MOCK_METHOD(bool, connect, (), (override));
-	MOCK_METHOD(bool, login, (const string& username, const string& password), (override));
-	MOCK_METHOD(void, disconnect, (), (override));
-};
 TEST(Login, login_success_with_correct_password) {
 	std::string username = "user1";
 	std::string correctPassword = "prngj9tug1";
+	User correctUser = { 501, username };
 
 	MockCommManager commManager;
 	EXPECT_CALL(commManager, connect()).WillOnce(Return(true));
-	EXPECT_CALL(commManager, login(username, correctPassword)).WillOnce(Return(true));
+	EXPECT_CALL(commManager, login(username, correctPassword)).WillOnce(Return(correctUser));
 
 	UserAuthManager uam(&commManager);
 
 	EXPECT_TRUE(uam.login(username, correctPassword));
+	EXPECT_EQ(uam.getCurrentUser().uid, correctUser.uid);
+	EXPECT_EQ(uam.getCurrentUser().username, correctUser.username);
 }
 
 TEST(Login, login_failed_with_incorrect_password) {
 	std::string username = "user1";
 	std::string incorrectPassword = "badpass1";
+	User notUser = { -1, username };
 
 	MockCommManager commManager;
 	EXPECT_CALL(commManager, connect()).WillOnce(Return(true));
-	EXPECT_CALL(commManager, login(username, incorrectPassword)).WillOnce(Return(false));
+	EXPECT_CALL(commManager, login(username, incorrectPassword)).WillOnce(Return(notUser));
 
 	UserAuthManager uam(&commManager);
 
@@ -56,3 +56,4 @@ TEST(Logout, should_be_disconnect_when_logout) {
 
 	uam.logout();
 }
+

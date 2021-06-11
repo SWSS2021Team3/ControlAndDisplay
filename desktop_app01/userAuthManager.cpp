@@ -4,11 +4,20 @@ bool UserAuthManager::login(const string& username, const string& password)
 {
 	if (commManager == nullptr) return false;
 	if (!commManager->connect()) return false;
-	return commManager->login(username, password);
+	User user = commManager->login(username, password);
+	if (user.uid < 0) return false;
+
+	currentUser = user;
+	return true;
 }
 
 void UserAuthManager::logout()
 {
 	if (commManager == nullptr) return;
 	commManager->disconnect();
+}
+
+User UserAuthManager::getCurrentUser()
+{
+	return currentUser;
 }

@@ -3,12 +3,14 @@
 #include <opencv2/opencv.hpp>
 #include "commManager.h"
 #include "userAuthManager.h"
+#include "studentController.h"
 
 class AttendanceChecker
 {
 private:
 	CommManager* commManager = nullptr;
 	UserAuthManager* userAuthManager = nullptr;
+	StudentController* studentController = nullptr;
 
 	cv::Mat mat_frame;
 
@@ -20,4 +22,6 @@ public:
 	bool recvVideo();
 	cv::Mat& getVideoFrame();
 	void logout();
+	void showFaceImages();
+	vector<cv::Mat>& getFaces();
 };

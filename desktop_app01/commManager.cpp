@@ -1,3 +1,4 @@
+#include <opencv2/opencv.hpp>
 #include "commManager.h"
 
 CommManager::~CommManager()
@@ -19,8 +20,23 @@ bool CommManager::connect(const string& hostname, const string& portname)
 	return true;
 }
 
-bool CommManager::login(const string& username, const string& password)
+User CommManager::login(const string& username, const string& password)
 {
+	return {-1, username};
+}
+
+bool CommManager::requestFaces(const int uid, const int numberOfImages, vector<cv::Mat>& faces)
+{
+	// TODO: request
+	// TODO: receive images and fetch to faces;
+	for (int i = 0; i < numberOfImages; i++)
+	{
+		faces.emplace_back();
+		cv::Mat& face = faces.back();
+		cv::String imagePath = i % 2 ? ".\\imgs\\Chandler.png":".\\imgs\\Rachel.png";
+		face = cv::imread(imagePath, cv::IMREAD_COLOR);
+	}
+
 	return true;
 }
 
