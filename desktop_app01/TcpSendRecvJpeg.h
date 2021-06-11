@@ -10,10 +10,10 @@
 
 #include <opencv2/core/core.hpp>
 #include "NetworkTCP.h"
+#include "Payload.h"
 
 int TcpSendImageAsJpeg(TTcpConnectedPort * TcpConnectedPort, cv::Mat Image);
 bool TcpRecvImageAsJpeg(TTcpConnectedPort * TcpConnectedPort,cv::Mat *Image);
-
 #endif
 //------------------------------------------------------------------------------------------------
 //END of Include

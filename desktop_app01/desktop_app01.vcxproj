@@ -150,13 +150,16 @@
     <ClInclude Include="commManager.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="NetworkTCP.h" />
+    <ClInclude Include="Payload.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="studentController.h" />
     <ClInclude Include="studentView.h" />
+    <ClInclude Include="TcpSendRecvCmd.h" />
     <ClInclude Include="TcpSendRecvJpeg.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="userAuthManager.h" />
     <ClInclude Include="view.h" />
+    <ClInclude Include="MSG_DB.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="desktop_app01.rc" />
@@ -167,6 +170,7 @@
     <ClCompile Include="commManager.cpp" />
     <ClCompile Include="studentController.cpp" />
     <ClCompile Include="studentView.cpp" />
+    <ClCompile Include="TcpSendRecvCmd.cpp" />
     <ClCompile Include="userAuthManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NetworkTCP.cpp" />

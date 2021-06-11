@@ -5,6 +5,7 @@
 // 1.0 April 2017 - initial version
 // Send and receives OpenCV Mat Images in a Tcp Stream commpressed as Jpeg images 
 //------------------------------------------------------------------------------------------------
+
 #include <opencv2/highgui/highgui.hpp>
 #include "TcpSendRecvJpeg.h"
 static  int init_values[2] = { cv::IMWRITE_JPEG_QUALITY,80 }; //default(95) 0-100
@@ -22,7 +23,7 @@ int TcpSendImageAsJpeg(TTcpConnectedPort * TcpConnectedPort,cv::Mat Image)
     cv::imencode(".jpg", Image, sendbuff, param);
     imagesize=htonl(sendbuff.size()); // convert image size to network format
     if (WriteDataTcp(TcpConnectedPort,(unsigned char *)&imagesize,sizeof(imagesize))!=sizeof(imagesize))
-    return(-1);
+        return(-1);
     return(WriteDataTcp(TcpConnectedPort,sendbuff.data(), sendbuff.size()));
 }
 

@@ -4,6 +4,8 @@
 #include "NetworkTCP.h"
 #include "TcpSendRecvJpeg.h"
 #include "user.h"
+#include "MSG_DB.H"
+#include "TcpSendRecvCmd.h"
 
 using namespace std;
 
@@ -27,4 +29,6 @@ public:
 	void disconnect();
 	bool isConnected();
 	bool recvVideo(cv::Mat* frame);
+	Payload* createCmdPacket(int cmd);
 };
+
