@@ -3,7 +3,11 @@
 
 View::~View()
 {
-	if (hWnd) DestroyWindow(hWnd);
+	if (hWnd)
+	{
+		EndDialog(hWnd, 0);
+		DestroyWindow(hWnd);
+	}
 }
 
 INT_PTR CALLBACK View::StaticDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARAM lParam)

@@ -13,7 +13,6 @@ INT_PTR StudentView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_INITDIALOG:
 		if (m_pBitmapInfo == nullptr)
 			m_pBitmapInfo = (BITMAPINFO*)malloc(sizeof(BITMAPINFO) + 256 * sizeof(RGBQUAD));
-		//MessageBox(hWnd, L"WM_INITDIALOG", L"", MB_OK);
 		break;
 	case WM_CLOSE:
 		break;
@@ -27,7 +26,6 @@ INT_PTR StudentView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 			showFaceImages();
 			break;
 		case IDCANCEL:
-			EndDialog(hWnd, wParam);
 			return TRUE;
 		}
 		break;

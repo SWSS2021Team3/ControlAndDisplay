@@ -19,7 +19,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	HWND hDlgWnd = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_ACS_DIALOG), nullptr, (DLGPROC)DlgProc);
 
 	studentView = new StudentView(hInstance, hDlgWnd, &acs);
-	attendanceView = new AttendanceView(hInstance, hDlgWnd, &acs);
+	//attendanceView = new AttendanceView(hInstance, hDlgWnd, &acs);
 
 	ShowWindow(hDlgWnd, SW_SHOWNORMAL);
 	studentView->show();
@@ -27,7 +27,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	//attendanceView->show();
 
 	MSG msg;
-	while (GetMessage(&msg, 0, 0, 0)) {
+	while (IsWindow(hDlgWnd) && GetMessage(&msg, 0, 0, 0)) {
 		if (!IsDialogMessage(hDlgWnd, &msg)) {
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
@@ -35,9 +35,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	delete studentView;
-	delete attendanceView;
-
-	DestroyWindow(hDlgWnd);
+	//delete attendanceView;
 
 	return 0;
 }
@@ -55,16 +53,18 @@ BOOL CALLBACK DlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_INITDIALOG:
 		break;
 	case WM_CLOSE:
-		break;
+		EndDialog(hWndDlg, wParam);
+		DestroyWindow(hWndDlg);
+		return TRUE;
 	case WM_DESTROY:
-		KillTimer(hWndDlg, 1000);
 		break;
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
 		case IDCANCEL:
-			EndDialog(hWndDlg, wParam);
-			return TRUE;
+			break;
+		default:
+			break;
 		}
 		break;
 	default:

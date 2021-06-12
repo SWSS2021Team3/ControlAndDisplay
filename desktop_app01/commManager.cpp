@@ -29,17 +29,17 @@ bool CommManager::requestFaces(const int uid, const int numberOfImages, vector<c
 {
 	// TODO: request
 	// TODO: receive images and fetch to faces;
-	std::cout << "requestFaces : SIGNAL_FM_REQ_GET_FACES" << endl;
-	Payload *payload = createCmdPacket(SIGNAL_FM_REQ_GET_FACES);
-	if (payload == NULL) {
-		std::cout << "unable to create a payload" << endl;
-		return false;
-	}
-	int ret = TcpSendCommand(connection, payload);
-	if (ret < 0) {
-		std::cout << "failed to send command" << endl;
-		return false;
-	}
+	//std::cout << "requestFaces : SIGNAL_FM_REQ_GET_FACES" << endl;
+	//Payload *payload = createCmdPacket(SIGNAL_FM_REQ_GET_FACES);
+	//if (payload == NULL) {
+	//	std::cout << "unable to create a payload" << endl;
+	//	return false;
+	//}
+	//int ret = TcpSendCommand(connection, payload);
+	//if (ret < 0) {
+	//	std::cout << "failed to send command" << endl;
+	//	return false;
+	//}
 	for (int i = 0; i < numberOfImages; i++)
 	{
 		faces.emplace_back();
