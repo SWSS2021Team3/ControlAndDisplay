@@ -23,7 +23,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	ShowWindow(hDlgWnd, SW_SHOWNORMAL);
 	studentView->show();
-	acs.showFaceImages();
 	//attendanceView->show();
 
 	MSG msg;
