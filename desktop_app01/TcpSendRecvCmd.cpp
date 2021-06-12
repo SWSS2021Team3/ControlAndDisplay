@@ -8,12 +8,12 @@ int TcpSendCommand(TTcpConnectedPort * TcpConnectedPort, Payload* payload)
     if (payload == NULL) {
       return -1;
     }
-	unsigned int payloadSize = sizeof(payload);
+	unsigned int payloadSize = sizeof(Payload);
     payloadSize = htonl(payloadSize);
     if (WriteDataTcp(TcpConnectedPort,(unsigned char *)&payloadSize,sizeof(payloadSize))!=sizeof(payloadSize)) {
       return(-1);
     }
-    return(WriteDataTcp(TcpConnectedPort,(unsigned char *)payload, sizeof(payload)));
+    return(WriteDataTcp(TcpConnectedPort,(unsigned char *)payload, sizeof(Payload)));
 }
 
 
@@ -39,7 +39,6 @@ bool TcpRecvCommand(TTcpConnectedPort * TcpConnectedPort, Payload* payload)
   }
 
   if((ReadDataTcp(TcpConnectedPort,buff,payloadSize))==payloadSize) {
-    payload = new Payload();
     payload->data_id = ((Payload*)buff)->data_id;
     payload->data_length = ((Payload*)buff)->data_length;
     payload->data = ((Payload*)buff)->data; // deep copy

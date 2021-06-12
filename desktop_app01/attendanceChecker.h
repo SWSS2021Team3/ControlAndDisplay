@@ -22,6 +22,6 @@ public:
 	bool recvVideo();
 	cv::Mat& getVideoFrame();
 	void logout();
-	void showFaceImages();
+	void fetchFaceImages();
 	vector<cv::Mat>& getFaces();
 };

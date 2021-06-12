@@ -23,6 +23,7 @@ INT_PTR StudentView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 		switch (LOWORD(wParam))
 		{
 		case IDC_ADD_FACE_BUTTON:
+			acs->fetchFaceImages();
 			showFaceImages();
 			break;
 		case IDCANCEL:

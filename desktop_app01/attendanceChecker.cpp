@@ -39,7 +39,7 @@ void AttendanceChecker::logout()
 	userAuthManager->logout();
 }
 
-void AttendanceChecker::showFaceImages()
+void AttendanceChecker::fetchFaceImages()
 {
 	studentController->fetchFaces();
 }
