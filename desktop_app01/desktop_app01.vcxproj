@@ -149,6 +149,7 @@
     <ClInclude Include="attendanceView.h" />
     <ClInclude Include="commManager.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="listener.h" />
     <ClInclude Include="NetworkTCP.h" />
     <ClInclude Include="Payload.h" />
     <ClInclude Include="resource.h" />

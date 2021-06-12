@@ -24,9 +24,9 @@ INT_PTR StudentView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 		{
 		case IDC_ADD_FACE_BUTTON:
 			acs->fetchFaceImages();
+			return TRUE;
+		case IDC_FINISH_FACE_BUTTON:
 			showFaceImages();
-			break;
-		case IDCANCEL:
 			return TRUE;
 		}
 		break;

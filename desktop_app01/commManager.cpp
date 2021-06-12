@@ -1,12 +1,54 @@
 #include <opencv2/opencv.hpp>
 #include "commManager.h"
+#include "Payload.h"
 
 CommManager::~CommManager()
 {
 	if (isConnected())
-	{
 		disconnect();
+}
+
+DWORD WINAPI CommManager::StaticReceiver(LPVOID lpParam)
+{
+	CommManager* that = (CommManager*)lpParam;
+	return that->receiver();
+}
+
+
+DWORD CommManager::receiver()
+{
+	Payload payload;
+	bool responseResult;
+
+	while (true)
+	{
+		if (!TcpRecvCommand(connection, &payload)) {
+			std::cout << "failed to receive payload" << endl;
+			continue;
+		}
+
+		switch (payload.data_id)
+		{
+		case SIGNAL_FM_RESP_GET_FACES:
+		{
+			cv::Mat faceImage;
+
+			responseResult = TcpRecvImageAsJpeg(connection, &faceImage);
+			if (responseResult)
+			{
+				if (faceImageListener != nullptr)
+				{
+					faceImageListener->onFaceImageReceive(faceImage);
+				}
+			}
+		}
+		break;
+		default:
+			break;
+		}
 	}
+
+	return 0;
 }
 bool CommManager::connect()
 {
@@ -15,40 +57,36 @@ bool CommManager::connect()
 
 bool CommManager::connect(const string& hostname, const string& portname)
 {
+	if (isConnected())
+		disconnect();
+
 	if ((connection = OpenTcpConnection(hostname.c_str(), portname.c_str())) == NULL)
 		return false;
+	if (!hThread)
+		hThread = CreateThread(NULL, 0, CommManager::StaticReceiver, (LPVOID)this, 0, &tid);
 	return true;
+}
+
+bool CommManager::send(int cmd)
+{
+	if (connection == nullptr) return false;
+
+	Payload payload;
+	payload.data_id = cmd;
+	payload.data_length = 0;
+
+	int ret = TcpSendCommand(connection, &payload);
+	return ret >= 0;
 }
 
 User CommManager::login(const string& username, const string& password)
 {
-	return {-1, username};
+	return { -1, username };
 }
 
 bool CommManager::requestFaces(const int uid, const int numberOfImages, vector<cv::Mat>& faces)
 {
-	// TODO: request
-	// TODO: receive images and fetch to faces;
-	//std::cout << "requestFaces : SIGNAL_FM_REQ_GET_FACES" << endl;
-	//Payload *payload = createCmdPacket(SIGNAL_FM_REQ_GET_FACES);
-	//if (payload == NULL) {
-	//	std::cout << "unable to create a payload" << endl;
-	//	return false;
-	//}
-	//int ret = TcpSendCommand(connection, payload);
-	//if (ret < 0) {
-	//	std::cout << "failed to send command" << endl;
-	//	return false;
-	//}
-	for (int i = 0; i < numberOfImages; i++)
-	{
-		faces.emplace_back();
-		cv::Mat& face = faces.back();
-		cv::String imagePath = i % 2 ? ".\\imgs\\Chandler.png":".\\imgs\\Rachel.png";
-		face = cv::imread(imagePath, cv::IMREAD_COLOR);
-	}
-
-	return true;
+	return send(SIGNAL_FM_REQ_GET_FACES);
 }
 
 bool CommManager::isConnected()
@@ -65,6 +103,11 @@ void CommManager::disconnect()
 {
 	CloseTcpConnectedPort(&connection);
 	connection = nullptr;
+	if (hThread)
+	{
+		CloseHandle(hThread);
+		hThread = 0;
+	}
 }
 
 Payload* CommManager::createCmdPacket(int cmd)
