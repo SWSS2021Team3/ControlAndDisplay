@@ -22,12 +22,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	studentView = new StudentView(hInstance, hDlgWnd, &acs);
 	userAuthView = new UserAuthView(hInstance, hDlgWnd, &acs);
-	//attendanceView = new AttendanceView(hInstance, hDlgWnd, &acs);
+	attendanceView = new AttendanceView(hInstance, hDlgWnd, &acs);
 
 	ShowWindow(hDlgWnd, SW_SHOWNORMAL);
 	userAuthView->show();
-	//studentView->show();
-	//attendanceView->show();
 
 	MSG msg;
 	while (IsWindow(hDlgWnd) && GetMessage(&msg, 0, 0, 0)) {
@@ -42,7 +40,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	delete studentView;
 	delete userAuthView;
-	//delete attendanceView;
+	delete attendanceView;
 
 	return 0;
 }
@@ -68,13 +66,20 @@ BOOL CALLBACK DlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
-		case IDD_ATTENDANCE_FORMVIEW:
+		case IDD_STUDENT_FORMVIEW:
 			userAuthView->hide();
 			studentView->show();
+			attendanceView->hide();
 			break;
 		case IDD_USER_AUTH_FORMVIEW:
 			userAuthView->show();
 			studentView->hide();
+			attendanceView->hide();
+			break;
+		case IDD_ATTENDANCE_FORMVIEW:
+			userAuthView->hide();
+			studentView->hide();
+			attendanceView->show();
 			break;
 		default:
 			break;
