@@ -48,3 +48,10 @@ vector<cv::Mat>& AttendanceChecker::getFaces()
 {
 	return studentController->getFaces();
 }
+
+void AttendanceChecker::setViewHandler(ViewHandler* vh)
+{
+	studentController->setViewHandler(vh);
+	//userAuthManager->setViewHandler(vh);
+
+}

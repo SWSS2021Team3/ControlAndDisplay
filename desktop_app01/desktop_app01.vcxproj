@@ -161,6 +161,7 @@
     <ClInclude Include="userAuthManager.h" />
     <ClInclude Include="view.h" />
     <ClInclude Include="MSG_DB.h" />
+    <ClInclude Include="viewHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="desktop_app01.rc" />

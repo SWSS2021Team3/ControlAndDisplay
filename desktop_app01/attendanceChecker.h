@@ -4,6 +4,7 @@
 #include "commManager.h"
 #include "userAuthManager.h"
 #include "studentController.h"
+#include "viewHandler.h"
 
 class AttendanceChecker
 {
@@ -17,6 +18,7 @@ private:
 public:
 	AttendanceChecker();
 	~AttendanceChecker();
+	void setViewHandler(ViewHandler* vh);
 	bool login(const string& username, const string& password);
 	bool isConnected();
 	bool recvVideo();

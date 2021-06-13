@@ -11,7 +11,6 @@ bool StudentController::fetchFaces()
 	if (commManager == nullptr) return false;
 
 	int uid = userAuthManager->getCurrentUser().uid;
-	commManager->connect(); // temp
 	return commManager->requestFaces(uid, NUMBER_OF_FACES_REQ, faces);
 }
 
@@ -23,4 +22,13 @@ std::vector<cv::Mat>& StudentController::getFaces()
 void StudentController::onFaceImageReceive(cv::Mat& faceImage)
 {
 	faces.push_back(faceImage);
+	if (viewHandler != nullptr)
+	{
+		viewHandler->onFaceImageUpdate();
+	}
+}
+
+void StudentController::setViewHandler(ViewHandler* vh)
+{
+	viewHandler = vh;
 }

@@ -2,9 +2,10 @@
 
 #include "framework.h"
 #include "view.h"
+#include "viewHandler.h"
 #include "attendanceChecker.h"
 
-class StudentView : public View
+class StudentView : public View, ViewHandler
 {
 private:
 	AttendanceChecker* acs;
@@ -16,4 +17,6 @@ public:
 	StudentView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecker* ac);
 	void start();
 	void showFaceImages();
+
+	void onFaceImageUpdate();
 };

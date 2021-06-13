@@ -5,12 +5,15 @@
 #include "commManager.h"
 #include "userAuthManager.h"
 #include "listener.h"
+#include "viewHandler.h"
 
 class StudentController : public FaceImageListener
 {
 private:
 	CommManagerInterface* commManager;
 	UserAuthManagerInterface* userAuthManager;
+
+	ViewHandler* viewHandler = nullptr;
 
 public:
 	static const int NUMBER_OF_FACES_REQ = 5;
@@ -22,4 +25,6 @@ public:
 	std::vector<cv::Mat>& getFaces();
 
 	void onFaceImageReceive(cv::Mat& faceImage);
+
+	void setViewHandler(ViewHandler* vh);
 };

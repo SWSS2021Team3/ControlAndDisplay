@@ -25,6 +25,9 @@ INT_PTR StudentView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 		case IDC_ADD_FACE_BUTTON:
 			acs->fetchFaceImages();
 			return TRUE;
+		case IDC_TEMP_CONNECT:
+			acs->login("", "");
+			return TRUE;
 		case IDC_FINISH_FACE_BUTTON:
 			showFaceImages();
 			return TRUE;
@@ -39,6 +42,7 @@ INT_PTR StudentView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 StudentView::StudentView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecker *ac) : View(_hWndParent), acs(ac)
 {
 	hWnd = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_STUDENT_FORMVIEW), _hWndParent, (DLGPROC)StaticDlgProc, (LPARAM) this);
+	acs->setViewHandler(this);
 }
 
 void StudentView::start()
@@ -122,4 +126,9 @@ void StudentView::showFaceImages()
 			mat_temp.data, m_pBitmapInfo, DIB_RGB_COLORS, SRCCOPY);
 
 	}
+}
+
+void StudentView::onFaceImageUpdate()
+{
+	showFaceImages();
 }
