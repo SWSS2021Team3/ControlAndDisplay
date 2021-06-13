@@ -72,6 +72,10 @@ BOOL CALLBACK DlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 			userAuthView->hide();
 			studentView->show();
 			break;
+		case IDD_USER_AUTH_FORMVIEW:
+			userAuthView->show();
+			studentView->hide();
+			break;
 		default:
 			break;
 		}

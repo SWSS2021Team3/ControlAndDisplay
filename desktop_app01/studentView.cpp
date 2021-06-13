@@ -29,6 +29,8 @@ INT_PTR StudentView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 			acs->login("", "", false);
 			return TRUE;
 		case IDC_FINISH_FACE_BUTTON:
+			acs->logout();
+			SendMessage(hWndParent, WM_COMMAND, IDD_USER_AUTH_FORMVIEW, NULL);
 			return TRUE;
 		}
 		break;
