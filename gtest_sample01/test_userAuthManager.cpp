@@ -14,12 +14,12 @@ TEST(Login, login_success_with_correct_password) {
 	User correctUser = { 501, username };
 
 	MockCommManager commManager;
-	EXPECT_CALL(commManager, connect()).WillOnce(Return(true));
+	EXPECT_CALL(commManager, connect(false)).WillOnce(Return(true));
 	EXPECT_CALL(commManager, login(username, correctPassword)).WillOnce(Return(correctUser));
 
 	UserAuthManager uam(&commManager);
 
-	EXPECT_TRUE(uam.login(username, correctPassword));
+	EXPECT_TRUE(uam.login(username, correctPassword, false));
 	EXPECT_EQ(uam.getCurrentUser().uid, correctUser.uid);
 	EXPECT_EQ(uam.getCurrentUser().username, correctUser.username);
 }
@@ -30,22 +30,22 @@ TEST(Login, login_failed_with_incorrect_password) {
 	User notUser = { -1, username };
 
 	MockCommManager commManager;
-	EXPECT_CALL(commManager, connect()).WillOnce(Return(true));
+	EXPECT_CALL(commManager, connect(false)).WillOnce(Return(true));
 	EXPECT_CALL(commManager, login(username, incorrectPassword)).WillOnce(Return(notUser));
 
 	UserAuthManager uam(&commManager);
 
-	EXPECT_FALSE(uam.login(username, incorrectPassword));
+	EXPECT_FALSE(uam.login(username, incorrectPassword, false));
 }
 
 TEST(Login, login_failed_when_connection_failed) {
 	MockCommManager commManager;
-	EXPECT_CALL(commManager, connect()).WillOnce(Return(false));
+	EXPECT_CALL(commManager, connect(false)).WillOnce(Return(false));
 	EXPECT_CALL(commManager, login(_, _)).Times(0);
 
 	UserAuthManager uam(&commManager);
 
-	EXPECT_FALSE(uam.login("user1", "pwd"));
+	EXPECT_FALSE(uam.login("user1", "pwd", false));
 }
 
 TEST(Logout, should_be_disconnect_when_logout) {

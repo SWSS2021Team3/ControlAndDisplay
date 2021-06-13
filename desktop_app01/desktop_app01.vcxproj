@@ -159,6 +159,7 @@
     <ClInclude Include="TcpSendRecvJpeg.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="userAuthManager.h" />
+    <ClInclude Include="userAuthView.h" />
     <ClInclude Include="view.h" />
     <ClInclude Include="MSG_DB.h" />
     <ClInclude Include="viewHandler.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NetworkTCP.cpp" />
     <ClCompile Include="TcpSendRecvJpeg.cpp" />
+    <ClCompile Include="userAuthView.cpp" />
     <ClCompile Include="view.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -19,10 +19,10 @@ DWORD CommManager::receiver()
 {
 	Payload payload;
 	bool responseResult;
-
+	TTcpConnectedPort conn = *connection;
 	while (true)
 	{
-		if (!TcpRecvCommand(connection, &payload)) {
+		if (!TcpRecvCommand(&conn, &payload)) {
 			std::cout << "failed to receive payload" << endl;
 			continue;
 		}
@@ -33,7 +33,7 @@ DWORD CommManager::receiver()
 		{
 			cv::Mat faceImage;
 
-			responseResult = TcpRecvImageAsJpeg(connection, &faceImage);
+			responseResult = TcpRecvImageAsJpeg(&conn, &faceImage);
 			if (responseResult)
 			{
 				if (faceImageListener != nullptr)
@@ -50,12 +50,12 @@ DWORD CommManager::receiver()
 
 	return 0;
 }
-bool CommManager::connect()
+bool CommManager::connect(const bool secureMode)
 {
-	return connect("127.0.0.1", "5000");
+	return connect("127.0.0.1", "5000", secureMode);
 }
 
-bool CommManager::connect(const string& hostname, const string& portname)
+bool CommManager::connect(const string& hostname, const string& portname, const bool secureMode)
 {
 	if (isConnected())
 		disconnect();
@@ -81,7 +81,7 @@ bool CommManager::send(int cmd)
 
 User CommManager::login(const string& username, const string& password)
 {
-	return { -1, username };
+	return { 3, username };
 }
 
 bool CommManager::requestFaces(const int uid, const int numberOfImages, vector<cv::Mat>& faces)
@@ -101,13 +101,13 @@ bool CommManager::recvVideo(cv::Mat* frame)
 
 void CommManager::disconnect()
 {
-	CloseTcpConnectedPort(&connection);
-	connection = nullptr;
 	if (hThread)
 	{
 		CloseHandle(hThread);
 		hThread = 0;
 	}
+	CloseTcpConnectedPort(&connection);
+	connection = nullptr;
 }
 
 Payload* CommManager::createCmdPacket(int cmd)

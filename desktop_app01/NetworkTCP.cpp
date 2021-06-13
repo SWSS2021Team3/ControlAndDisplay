@@ -263,6 +263,7 @@ ssize_t ReadDataTcp(TTcpConnectedPort *TcpConnectedPort,unsigned char *data, siz
  
  for (size_t i = 0; i < length; i += bytes)
     {
+      if (!TcpConnectedPort) return -1;
       if ((bytes = recv(TcpConnectedPort->ConnectedFd, (char *)(data+i), length  - i,0)) == -1) 
       {
        return (-1);

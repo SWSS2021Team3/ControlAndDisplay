@@ -28,7 +28,7 @@ void StudentController::onFaceImageReceive(cv::Mat& faceImage)
 	}
 }
 
-void StudentController::setViewHandler(ViewHandler* vh)
+void StudentController::setViewHandler(StudentViewHandler* vh)
 {
 	viewHandler = vh;
 }

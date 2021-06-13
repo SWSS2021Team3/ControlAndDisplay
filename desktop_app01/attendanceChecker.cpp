@@ -14,12 +14,12 @@ AttendanceChecker::~AttendanceChecker()
 	delete studentController;
 }
 
-bool AttendanceChecker::login(const string& username, const string& password)
+bool AttendanceChecker::login(const string& username, const string& password, const bool secureMode)
 {
-	return userAuthManager->login(username, password);
+	return userAuthManager->login(username, password, secureMode);
 }
 
-bool AttendanceChecker::isConnected()
+bool AttendanceChecker::isLogin()
 {
 	return commManager->isConnected();
 }
@@ -49,9 +49,11 @@ vector<cv::Mat>& AttendanceChecker::getFaces()
 	return studentController->getFaces();
 }
 
-void AttendanceChecker::setViewHandler(ViewHandler* vh)
+void AttendanceChecker::setStudentViewHandler(StudentViewHandler* vh)
 {
 	studentController->setViewHandler(vh);
-	//userAuthManager->setViewHandler(vh);
-
+}
+void AttendanceChecker::setUserAuthViewHandler(UserAuthViewHandler* vh)
+{
+	userAuthManager->setViewHandler(vh);
 }

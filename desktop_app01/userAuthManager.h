@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "commManager.h"
+#include "viewHandler.h"
 #include "user.h"
 
 using namespace std;
@@ -15,9 +16,14 @@ class UserAuthManager : public UserAuthManagerInterface {
 private:
 	CommManagerInterface* commManager = nullptr;
 	User currentUser;
+
+	UserAuthViewHandler* viewHandler = nullptr;
+
 public:
 	UserAuthManager(CommManagerInterface* comm) : commManager(comm) {}
-	bool login(const string& username, const string& password);
+	bool login(const string& username, const string& password, const bool secureMode);
 	void logout();
 	User getCurrentUser();
+
+	void setViewHandler(UserAuthViewHandler* vh);
 };

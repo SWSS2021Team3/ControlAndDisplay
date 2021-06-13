@@ -17,5 +17,5 @@ public:
 	View(HWND _hWndParent) : hWndParent(_hWndParent) {}
 	~View();
 	void show();
-	//void hide();
+	void hide();
 };
