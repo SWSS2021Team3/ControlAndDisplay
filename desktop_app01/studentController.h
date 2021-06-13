@@ -13,7 +13,7 @@ private:
 	CommManagerInterface* commManager;
 	UserAuthManagerInterface* userAuthManager;
 
-	ViewHandler* viewHandler = nullptr;
+	StudentViewHandler* viewHandler = nullptr;
 
 public:
 	static const int NUMBER_OF_FACES_REQ = 5;
@@ -26,5 +26,5 @@ public:
 
 	void onFaceImageReceive(cv::Mat& faceImage);
 
-	void setViewHandler(ViewHandler* vh);
+	void setViewHandler(StudentViewHandler* vh);
 };

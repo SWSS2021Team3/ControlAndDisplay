@@ -1,11 +1,13 @@
 #include "framework.h"
 #include "resource.h"
 #include "attendanceChecker.h"
+#include "userAuthView.h"
 #include "studentView.h"
 #include "attendanceView.h"
 
 AttendanceChecker acs;
 
+UserAuthView* userAuthView;
 StudentView* studentView;
 AttendanceView* attendanceView;
 
@@ -19,10 +21,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	HWND hDlgWnd = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_ACS_DIALOG), nullptr, (DLGPROC)DlgProc);
 
 	studentView = new StudentView(hInstance, hDlgWnd, &acs);
+	userAuthView = new UserAuthView(hInstance, hDlgWnd, &acs);
 	//attendanceView = new AttendanceView(hInstance, hDlgWnd, &acs);
 
 	ShowWindow(hDlgWnd, SW_SHOWNORMAL);
-	studentView->show();
+	userAuthView->show();
+	//studentView->show();
 	//attendanceView->show();
 
 	MSG msg;
@@ -34,6 +38,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	delete studentView;
+	delete userAuthView;
 	//delete attendanceView;
 
 	return 0;

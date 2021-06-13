@@ -5,7 +5,7 @@
 #include "viewHandler.h"
 #include "attendanceChecker.h"
 
-class StudentView : public View, StudentViewHandler
+class UserAuthView : public View, UserAuthViewHandler
 {
 private:
 	AttendanceChecker* acs;
@@ -14,9 +14,8 @@ private:
 	INT_PTR DlgProc(UINT message, WPARAM wParam, LPARAM lParam);
 	BOOL eventHandler(HWND hWnd, UINT message, DWORD dwParam);
 public:
-	StudentView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecker* ac);
+	UserAuthView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecker* ac);
 	void start();
-	void showFaceImages();
 
-	void onFaceImageUpdate();
+	void onFoo();
 };

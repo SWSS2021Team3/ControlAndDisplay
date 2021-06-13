@@ -18,7 +18,8 @@ private:
 public:
 	AttendanceChecker();
 	~AttendanceChecker();
-	void setViewHandler(ViewHandler* vh);
+	void setStudentViewHandler(StudentViewHandler* vh);
+	void setUserAuthViewHandler(UserAuthViewHandler* vh);
 	bool login(const string& username, const string& password);
 	bool isConnected();
 	bool recvVideo();

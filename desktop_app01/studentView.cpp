@@ -42,7 +42,7 @@ INT_PTR StudentView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 StudentView::StudentView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecker *ac) : View(_hWndParent), acs(ac)
 {
 	hWnd = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_STUDENT_FORMVIEW), _hWndParent, (DLGPROC)StaticDlgProc, (LPARAM) this);
-	acs->setViewHandler(this);
+	acs->setStudentViewHandler(this);
 }
 
 void StudentView::start()

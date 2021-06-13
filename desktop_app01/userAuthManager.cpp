@@ -22,3 +22,8 @@ User UserAuthManager::getCurrentUser()
 {
 	return currentUser;
 }
+
+void UserAuthManager::setViewHandler(UserAuthViewHandler* vh)
+{
+	viewHandler = vh;
+}
