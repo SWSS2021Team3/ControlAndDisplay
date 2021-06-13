@@ -26,10 +26,9 @@ INT_PTR StudentView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 			acs->fetchFaceImages();
 			return TRUE;
 		case IDC_TEMP_CONNECT:
-			acs->login("", "");
+			acs->login("", "", false);
 			return TRUE;
 		case IDC_FINISH_FACE_BUTTON:
-			showFaceImages();
 			return TRUE;
 		}
 		break;

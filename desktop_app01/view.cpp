@@ -41,3 +41,8 @@ void View::show()
 {
 	ShowWindow(hWnd, SW_SHOWNORMAL);
 }
+
+void View::hide()
+{
+	ShowWindow(hWnd, SW_HIDE);
+}

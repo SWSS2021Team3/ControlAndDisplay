@@ -1,4 +1,5 @@
 #pragma once
+#include "user.h"
 
 class StudentViewHandler
 {
@@ -9,5 +10,7 @@ public:
 class UserAuthViewHandler
 {
 public:
-	virtual void onFoo() = 0;
+	virtual void onConnectFailed() = 0;
+	virtual void onLoginFailed() = 0;
+	virtual void onLoginSuccess(User user) = 0;
 };

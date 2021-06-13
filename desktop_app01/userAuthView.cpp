@@ -6,6 +6,14 @@ BOOL UserAuthView::eventHandler(HWND hWnd, UINT message, DWORD dwParam)
 	return TRUE;
 }
 
+std::string wstr2string(const LPWSTR lpwstr)
+{
+	std::wstring ws(lpwstr);
+	std::string s;
+	std::transform(ws.begin(), ws.end(), std::back_inserter(s), [](WCHAR c) { return (char)c;});
+	return s;
+}
+
 INT_PTR UserAuthView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
@@ -28,10 +36,10 @@ INT_PTR UserAuthView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 			WCHAR password[100];
 			UINT c1 = GetDlgItemText(hWnd, IDC_USERNAME_EDIT, username, 100);
 			UINT c2 = GetDlgItemText(hWnd, IDC_PASSWORD_EDIT, password, 100);
-			WCHAR s[300];
-			wsprintf(s, L"Login button clicked! %d %s %s %d %d", secureMode, username, password, c1, c2);
-			MessageBox(hWnd, s, L"", MB_OK);
-
+			//WCHAR s[300];
+			//wsprintf(s, L"Login button clicked! %d %s %s %d %d", secureMode, username, password, c1, c2);
+			//MessageBox(hWnd, s, L"", MB_OK);
+			acs->login(wstr2string(username), wstr2string(password), secureMode);
 			return TRUE;
 		}
 		//// manual radio button group
@@ -76,7 +84,20 @@ void UserAuthView::start()
 	show();
 }
 
-void UserAuthView::onFoo()
+void UserAuthView::onConnectFailed()
 {
+	MessageBox(hWnd, L"Connect Fail.", L"", MB_OK);
+}
 
+void UserAuthView::onLoginFailed()
+{
+	MessageBox(hWnd, L"Login Fail.", L"", MB_OK);
+}
+
+void UserAuthView::onLoginSuccess(User user)
+{
+	WCHAR msg[300];
+	wsprintf(msg, L"Welcome");
+	MessageBox(hWnd, msg, L"", MB_OK);
+	SendMessage(hWndParent, WM_COMMAND, IDD_ATTENDANCE_FORMVIEW, NULL);
 }

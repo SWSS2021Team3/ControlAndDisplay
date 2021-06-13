@@ -6,6 +6,6 @@
 TEST(DISABLED_Connection, should_be_false_when_connect_failed) {
 	AttendanceChecker acs;
 
-	bool connectionResult = acs.login("no_where", "not_port");
+	bool connectionResult = acs.login("no_where", "not_port", false);
 	EXPECT_EQ(connectionResult, false);
 }

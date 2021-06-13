@@ -92,12 +92,12 @@ INT_PTR AttendanceView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 		switch (LOWORD(wParam))
 		{
 		case IDOK:
-			if (!acs->isConnected())
+			if (!acs->isLogin())
 			{
 				int res = MessageBox(hWnd, L"Connect ?", L"", MB_YESNO);
 				if (res == 6)
 				{
-					bool connected = acs->login("username", "password");
+					bool connected = acs->login("username", "password", false);
 					if (connected)
 					{
 						SetTimer(hWnd, (UINT_PTR) this, 30, (TIMERPROC)StaticEventHandler);

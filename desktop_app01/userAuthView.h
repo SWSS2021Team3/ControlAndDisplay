@@ -17,5 +17,7 @@ public:
 	UserAuthView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecker* ac);
 	void start();
 
-	void onFoo();
+	void onConnectFailed();
+	void onLoginFailed();
+	void onLoginSuccess(User user);
 };

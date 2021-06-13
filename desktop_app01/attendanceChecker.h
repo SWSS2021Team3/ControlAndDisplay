@@ -20,8 +20,8 @@ public:
 	~AttendanceChecker();
 	void setStudentViewHandler(StudentViewHandler* vh);
 	void setUserAuthViewHandler(UserAuthViewHandler* vh);
-	bool login(const string& username, const string& password);
-	bool isConnected();
+	bool login(const string& username, const string& password, const bool secureMode);
+	bool isLogin();
 	bool recvVideo();
 	cv::Mat& getVideoFrame();
 	void logout();

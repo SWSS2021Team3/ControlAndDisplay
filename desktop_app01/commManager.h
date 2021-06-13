@@ -15,7 +15,7 @@ protected:
 	FaceImageListener* faceImageListener = nullptr;
 
 public:
-	virtual bool connect() = 0;
+	virtual bool connect(const bool secureMode) = 0;
 	virtual User login(const string& username, const string& password) = 0;
 	virtual bool requestFaces(const int uid, const int numberOfImages, vector<cv::Mat>& faces) = 0;
 	virtual void disconnect() = 0;
@@ -36,8 +36,8 @@ private:
 public:
 	~CommManager();
 	DWORD receiver();
-	bool connect();
-	bool connect(const string& hostname, const string& portname);
+	bool connect(const bool secureMode);
+	bool connect(const string& hostname, const string& portname, const bool secureMode);
 	User login(const string& username, const string& password);
 	bool requestFaces(const int uid, const int numberOfImages, vector<cv::Mat>& faces);
 	void disconnect();

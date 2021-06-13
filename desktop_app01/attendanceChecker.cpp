@@ -14,12 +14,12 @@ AttendanceChecker::~AttendanceChecker()
 	delete studentController;
 }
 
-bool AttendanceChecker::login(const string& username, const string& password)
+bool AttendanceChecker::login(const string& username, const string& password, const bool secureMode)
 {
-	return userAuthManager->login(username, password);
+	return userAuthManager->login(username, password, secureMode);
 }
 
-bool AttendanceChecker::isConnected()
+bool AttendanceChecker::isLogin()
 {
 	return commManager->isConnected();
 }

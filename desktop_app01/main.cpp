@@ -37,6 +37,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		}
 	}
 
+	if (acs.isLogin())
+		acs.logout();
+
 	delete studentView;
 	delete userAuthView;
 	//delete attendanceView;
@@ -65,7 +68,9 @@ BOOL CALLBACK DlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
-		case IDCANCEL:
+		case IDD_ATTENDANCE_FORMVIEW:
+			userAuthView->hide();
+			studentView->show();
 			break;
 		default:
 			break;
