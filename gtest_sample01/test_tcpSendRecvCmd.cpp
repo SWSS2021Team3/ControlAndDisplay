@@ -106,5 +106,4 @@ TEST(TCPCommand, should_be_send_recv_tcp_cmd)
 	EXPECT_EQ(client.connect(&server), 0);
 	EXPECT_EQ(client.recvCommand(), SIGNAL_FM_RESP_GET_FACES);
 	server.close();
-	//Sleep(1000);
 }

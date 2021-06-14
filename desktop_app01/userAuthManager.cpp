@@ -4,12 +4,14 @@ bool UserAuthManager::login(const string& username, const string& password, cons
 {
 	if (commManager == nullptr)
 	{
-		viewHandler->onConnectFailed();
+		if (viewHandler)
+			viewHandler->onConnectFailed();
 		return false;
 	}
 	if (!commManager->connect(secureMode))
 	{
-		viewHandler->onConnectFailed();
+		if (viewHandler)
+			viewHandler->onConnectFailed();
 		return false;
 	}
 	User user = commManager->login(username, password);
@@ -17,12 +19,14 @@ bool UserAuthManager::login(const string& username, const string& password, cons
 	if (user.uid < 0)
 	{
 		commManager->disconnect();
-		viewHandler->onLoginFailed();
+		if (viewHandler)
+			viewHandler->onLoginFailed();
 		return false;
 	}
 
 	currentUser = user;
-	viewHandler->onLoginSuccess(user);
+	if (viewHandler)
+		viewHandler->onLoginSuccess(user);
 
 	return true;
 }

@@ -18,11 +18,13 @@ TEST(FaceImage, should_be_received) {
 	StudentController sc(&commManager, &uam);
 
 	EXPECT_CALL(uam, getCurrentUser()).WillOnce(Return(user));
-	EXPECT_CALL(commManager, requestFaces(user.uid, sc.NUMBER_OF_FACES_REQ, _))
+	EXPECT_CALL(commManager, requestFaces(user.uid))
 		.WillOnce(
-			[&sc](const int uid, const int numberOfImages, vector<cv::Mat>& faces) {
+			[&sc](const int uid) {
+				cv::Mat image;
 				for (int i = 0; i < sc.NUMBER_OF_FACES_REQ; i++)
-					sc.faces.emplace_back();
+					sc.onFaceImageReceive(image);
+
 				return true;
 			});
 
