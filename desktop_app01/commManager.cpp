@@ -41,8 +41,22 @@ DWORD CommManager::receiver()
 					faceImageListener->onFaceImageReceive(faceImage);
 				}
 			}
+			break;
 		}
-		break;
+		case SIGNAL_FM_RESP_FACE_ADD:
+		{
+			cv::Mat faceImage;
+
+			responseResult = TcpRecvImageAsJpeg(&conn, &faceImage);
+			if (responseResult)
+			{
+				if (faceImageListener != nullptr)
+				{
+					faceImageListener->onFaceAdd(faceImage);
+				}
+			}
+			break;
+		}
 		default:
 			break;
 		}

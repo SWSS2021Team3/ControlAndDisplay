@@ -26,6 +26,7 @@ public:
 	std::vector<cv::Mat>& getFaces();
 
 	void onFaceImageReceive(cv::Mat& faceImage);
+	void onFaceAdd(cv::Mat& faceImage);
 
 	void setViewHandler(StudentViewHandler* vh);
 };

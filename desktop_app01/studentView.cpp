@@ -48,6 +48,7 @@ StudentView::StudentView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecke
 void StudentView::start()
 {
 	// initialize
+	acs->getFaces().clear();
 	acs->fetchFaceImages();
 
 	show();
