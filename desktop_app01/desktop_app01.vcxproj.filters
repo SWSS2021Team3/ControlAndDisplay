@@ -69,6 +69,9 @@
     <ClInclude Include="userAuthView.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="serialize.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="desktop_app01.rc">
@@ -110,6 +113,9 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="userAuthView.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="serialize.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

@@ -55,3 +55,51 @@ bool TcpRecvCommand(TTcpConnectedPort * TcpConnectedPort, Payload* payload)
   delete [] buff;
   return false;
 }
+
+int TcpSendObject(TTcpConnectedPort* TcpConnectedPort, Serializable* s)
+{
+    if (s == NULL)
+        return -1;
+
+    size_t s_size = s->serialize_size();
+
+    u_long payloadSize = htonl(s_size);
+    if (WriteDataTcp(TcpConnectedPort, (unsigned char*)&payloadSize, sizeof(payloadSize)) != sizeof(payloadSize)) {
+        return(-1);
+    }
+    char* buf = new (std::nothrow) char[s_size];
+    if (buf == NULL)
+        return false;
+    s->serialize(buf);
+    int ret = WriteDataTcp(TcpConnectedPort, (unsigned char*)buf, s_size);
+    delete[] buf;
+    return ret;
+}
+
+
+bool TcpRecvObject(TTcpConnectedPort* TcpConnectedPort, Serializable* s)
+{
+    if (s == NULL)
+        return -1;
+
+    u_long payloadSize;
+
+    if (ReadDataTcp(TcpConnectedPort, (unsigned char*)&payloadSize, sizeof(payloadSize)) != sizeof(payloadSize)) {
+        return(false);
+    }
+
+    size_t s_size = ntohl(payloadSize); // convert image size to host format
+
+    char* buf = new (std::nothrow) char[s_size];
+    if (buf == NULL)
+        return false;
+
+    if ((ReadDataTcp(TcpConnectedPort, (unsigned char*)buf, s_size)) == s_size) {
+        s->deserialize(buf);
+
+        delete[] buf;
+        return true;
+    }
+    delete[] buf;
+    return false;
+}

@@ -153,6 +153,7 @@
     <ClInclude Include="NetworkTCP.h" />
     <ClInclude Include="Payload.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="serialize.h" />
     <ClInclude Include="studentController.h" />
     <ClInclude Include="studentView.h" />
     <ClInclude Include="TcpSendRecvCmd.h" />
@@ -171,6 +172,7 @@
     <ClCompile Include="attendanceChecker.cpp" />
     <ClCompile Include="attendanceView.cpp" />
     <ClCompile Include="commManager.cpp" />
+    <ClCompile Include="serialize.cpp" />
     <ClCompile Include="studentController.cpp" />
     <ClCompile Include="studentView.cpp" />
     <ClCompile Include="TcpSendRecvCmd.cpp" />

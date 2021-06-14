@@ -13,7 +13,7 @@ Payload* createCmdPacket(int cmd)
 	return payload;
 }
 
-DWORD WINAPI ServerProc(LPVOID lpParam)
+static DWORD WINAPI ServerProc(LPVOID lpParam)
 {
 	std::ostream* os = (std::ostream *)lpParam;
 
