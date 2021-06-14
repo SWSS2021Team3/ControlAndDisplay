@@ -41,7 +41,7 @@ bool TcpRecvCommand(TTcpConnectedPort * TcpConnectedPort, Payload* payload)
   if((ReadDataTcp(TcpConnectedPort,buff,payloadSize))==payloadSize) {
     payload->data_id = ((Payload*)buff)->data_id;
     payload->data_length = ((Payload*)buff)->data_length;
-    payload->data = ((Payload*)buff)->data; // deep copy
+    //payload->data = ((Payload*)buff)->data; // deep copy
 
     cout << "data_id: " << ((Payload*)buff)->data_id << endl;
     cout << "data_length: " << payload->data_length << endl;

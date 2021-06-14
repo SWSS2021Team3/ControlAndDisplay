@@ -11,7 +11,16 @@ bool StudentController::fetchFaces()
 	if (commManager == nullptr) return false;
 
 	int uid = userAuthManager->getCurrentUser().uid;
-	return commManager->requestFaces(uid, NUMBER_OF_FACES_REQ, faces);
+	return commManager->requestFaces(uid);
+}
+
+bool StudentController::addFace()
+{
+	if (userAuthManager == nullptr) return false;
+	if (commManager == nullptr) return false;
+
+	int uid = userAuthManager->getCurrentUser().uid;
+	return commManager->requestAddFace(uid, NUMBER_OF_FACES_REQ);
 }
 
 std::vector<cv::Mat>& StudentController::getFaces()

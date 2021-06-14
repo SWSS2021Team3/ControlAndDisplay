@@ -52,7 +52,8 @@ DWORD CommManager::receiver()
 }
 bool CommManager::connect(const bool secureMode)
 {
-	return connect("127.0.0.1", "5000", secureMode);
+	return connect("192.168.0.106", "5010", secureMode);
+	//return connect("127.0.0.1", "5000", secureMode);
 }
 
 bool CommManager::connect(const string& hostname, const string& portname, const bool secureMode)
@@ -67,7 +68,7 @@ bool CommManager::connect(const string& hostname, const string& portname, const 
 	return true;
 }
 
-bool CommManager::send(int cmd)
+bool CommManager::send(int cmd, int payload1)
 {
 	if (connection == nullptr) return false;
 
@@ -79,14 +80,24 @@ bool CommManager::send(int cmd)
 	return ret >= 0;
 }
 
+bool CommManager::send(int cmd)
+{
+	return send(cmd, 0);
+}
+
 User CommManager::login(const string& username, const string& password)
 {
 	return { 3, username };
 }
 
-bool CommManager::requestFaces(const int uid, const int numberOfImages, vector<cv::Mat>& faces)
+bool CommManager::requestFaces(const int uid)
 {
 	return send(SIGNAL_FM_REQ_GET_FACES);
+}
+
+bool CommManager::requestAddFace(const int uid, const int numberOfImages)
+{
+	return send(SIGNAL_FM_REQ_FACE_ADD, uid);
 }
 
 bool CommManager::isConnected()

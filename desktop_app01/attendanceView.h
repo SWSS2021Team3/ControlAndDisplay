@@ -14,4 +14,5 @@ private:
 	BOOL eventHandler(HWND hWnd, UINT message, DWORD dwParam);
 public:
 	AttendanceView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecker *ac);
+	void start();
 };

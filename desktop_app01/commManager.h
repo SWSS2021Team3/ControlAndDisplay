@@ -17,7 +17,8 @@ protected:
 public:
 	virtual bool connect(const bool secureMode) = 0;
 	virtual User login(const string& username, const string& password) = 0;
-	virtual bool requestFaces(const int uid, const int numberOfImages, vector<cv::Mat>& faces) = 0;
+	virtual bool requestFaces(const int uid) = 0;
+	virtual bool requestAddFace(const int uid, const int numberOfImages) = 0;
 	virtual void disconnect() = 0;
 	void setFaceImageListener(FaceImageListener* f)
 	{
@@ -32,6 +33,7 @@ private:
 	DWORD tid;
 	static DWORD WINAPI StaticReceiver(LPVOID lpParam);
 	bool send(int cmd);
+	bool send(int cmd, int payload1);
 
 public:
 	~CommManager();
@@ -39,7 +41,8 @@ public:
 	bool connect(const bool secureMode);
 	bool connect(const string& hostname, const string& portname, const bool secureMode);
 	User login(const string& username, const string& password);
-	bool requestFaces(const int uid, const int numberOfImages, vector<cv::Mat>& faces);
+	bool requestFaces(const int uid);
+	bool requestAddFace(const int uid, const int numberOfImages);
 	void disconnect();
 	bool isConnected();
 	bool recvVideo(cv::Mat* frame);

@@ -109,3 +109,9 @@ AttendanceView::AttendanceView(HINSTANCE hInstance, HWND _hWndParent, Attendance
 {
 	hWnd = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_ATTENDANCE_FORMVIEW), _hWndParent, (DLGPROC)StaticDlgProc, reinterpret_cast<LPARAM>(this));
 }
+
+void AttendanceView::start()
+{
+	// initialize
+	show();
+}

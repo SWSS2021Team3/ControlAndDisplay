@@ -81,6 +81,7 @@ UserAuthView::UserAuthView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChec
 
 void UserAuthView::start()
 {
+	// initialize
 	show();
 }
 

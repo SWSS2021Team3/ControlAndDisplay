@@ -26,5 +26,6 @@ public:
 	cv::Mat& getVideoFrame();
 	void logout();
 	void fetchFaceImages();
+	void addFaceImage();
 	vector<cv::Mat>& getFaces();
 };

@@ -20,6 +20,7 @@ public:
 
 	StudentController(CommManagerInterface* comm, UserAuthManagerInterface* uam);
 	bool fetchFaces();
+	bool addFace();
 
 	std::vector<cv::Mat> faces;
 	std::vector<cv::Mat>& getFaces();

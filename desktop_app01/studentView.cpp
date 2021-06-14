@@ -23,14 +23,13 @@ INT_PTR StudentView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 		switch (LOWORD(wParam))
 		{
 		case IDC_ADD_FACE_BUTTON:
-			acs->fetchFaceImages();
+			acs->addFaceImage();
 			return TRUE;
 		case IDC_TEMP_CONNECT:
 			SendMessage(hWndParent, WM_COMMAND, IDD_ATTENDANCE_FORMVIEW, NULL);
 			return TRUE;
 		case IDC_FINISH_FACE_BUTTON:
-			acs->logout();
-			SendMessage(hWndParent, WM_COMMAND, IDD_USER_AUTH_FORMVIEW, NULL);
+			stop();
 			return TRUE;
 		}
 		break;
@@ -48,7 +47,16 @@ StudentView::StudentView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecke
 
 void StudentView::start()
 {
+	// initialize
+	acs->fetchFaceImages();
+
 	show();
+}
+
+void StudentView::stop()
+{
+	acs->logout();
+	SendMessage(hWndParent, WM_COMMAND, IDD_USER_AUTH_FORMVIEW, NULL);
 }
 
 void StudentView::showFaceImages()

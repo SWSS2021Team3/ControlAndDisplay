@@ -16,6 +16,7 @@ private:
 public:
 	StudentView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecker* ac);
 	void start();
+	void stop();
 	void showFaceImages();
 
 	void onFaceImageUpdate();

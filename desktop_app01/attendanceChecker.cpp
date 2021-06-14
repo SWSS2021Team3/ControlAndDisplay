@@ -36,12 +36,18 @@ cv::Mat& AttendanceChecker::getVideoFrame()
 
 void AttendanceChecker::logout()
 {
+	studentController->faces.clear();
 	userAuthManager->logout();
 }
 
 void AttendanceChecker::fetchFaceImages()
 {
 	studentController->fetchFaces();
+}
+
+void AttendanceChecker::addFaceImage()
+{
+	studentController->addFace();
 }
 
 vector<cv::Mat>& AttendanceChecker::getFaces()
