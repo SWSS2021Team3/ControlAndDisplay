@@ -13,7 +13,7 @@ int TcpSendCommand(TTcpConnectedPort * TcpConnectedPort, Payload* payload)
     if (WriteDataTcp(TcpConnectedPort,(unsigned char *)&payloadSize,sizeof(payloadSize))!=sizeof(payloadSize)) {
       return(-1);
     }
-    return(WriteDataTcp(TcpConnectedPort,(unsigned char *)payload, sizeof(Payload)));
+    return static_cast<int>(WriteDataTcp(TcpConnectedPort,reinterpret_cast<unsigned char *>(payload), sizeof(Payload)));
 }
 
 
@@ -63,15 +63,15 @@ int TcpSendObject(TTcpConnectedPort* TcpConnectedPort, Serializable* s)
 
     size_t s_size = s->serialize_size();
 
-    u_long payloadSize = htonl(s_size);
-    if (WriteDataTcp(TcpConnectedPort, (unsigned char*)&payloadSize, sizeof(payloadSize)) != sizeof(payloadSize)) {
+    u_long payloadSize = htonl(static_cast<u_long>(s_size));
+    if (WriteDataTcp(TcpConnectedPort, reinterpret_cast<unsigned char*>(&payloadSize), sizeof(payloadSize)) != sizeof(payloadSize)) {
         return(-1);
     }
     char* buf = new (std::nothrow) char[s_size];
     if (buf == NULL)
         return false;
     s->serialize(buf);
-    int ret = WriteDataTcp(TcpConnectedPort, (unsigned char*)buf, s_size);
+    int ret = static_cast<int>(WriteDataTcp(TcpConnectedPort, reinterpret_cast<unsigned char*>(buf), s_size));
     delete[] buf;
     return ret;
 }
@@ -80,11 +80,11 @@ int TcpSendObject(TTcpConnectedPort* TcpConnectedPort, Serializable* s)
 bool TcpRecvObject(TTcpConnectedPort* TcpConnectedPort, Serializable* s)
 {
     if (s == NULL)
-        return -1;
+        return false;
 
     u_long payloadSize;
 
-    if (ReadDataTcp(TcpConnectedPort, (unsigned char*)&payloadSize, sizeof(payloadSize)) != sizeof(payloadSize)) {
+    if (ReadDataTcp(TcpConnectedPort, reinterpret_cast<unsigned char*>(&payloadSize), sizeof(payloadSize)) != sizeof(payloadSize)) {
         return(false);
     }
 
@@ -94,7 +94,7 @@ bool TcpRecvObject(TTcpConnectedPort* TcpConnectedPort, Serializable* s)
     if (buf == NULL)
         return false;
 
-    if ((ReadDataTcp(TcpConnectedPort, (unsigned char*)buf, s_size)) == s_size) {
+    if ((ReadDataTcp(TcpConnectedPort, reinterpret_cast<unsigned char*>(buf), s_size)) == s_size) {
         s->deserialize(buf);
 
         delete[] buf;
