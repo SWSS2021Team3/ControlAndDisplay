@@ -46,6 +46,5 @@ public:
 	void disconnect();
 	bool isConnected();
 	bool recvVideo(cv::Mat* frame);
-	Payload* createCmdPacket(int cmd);
 };
 

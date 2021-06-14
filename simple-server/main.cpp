@@ -234,12 +234,12 @@ void* receiverFunc(void* arg)
 	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
 	TTcpConnectedPort* connection = (TTcpConnectedPort*)arg;
 
-	Payload payload;
+	SerializablePayload payload;
 
 	while (true)
 	{
 
-		if (!TcpRecvCommand(connection, &payload)) {
+		if (!TcpRecvObject(connection, &payload)) {
 			std::cout << "failed to receive payload" << std::endl;
 			continue;
 		}
@@ -289,11 +289,11 @@ void* receiverFunc(void* arg)
 }
 int sendCmd(TTcpConnectedPort* connection, int cmd)
 {
-	Payload payload;
+	SerializablePayload payload;
 	payload.data_id = cmd;
-	payload.data_length = 0;
+	payload.i1 = 0;
 
-	return TcpSendCommand(connection, &payload);
+	return TcpSendObject(connection, &payload);
 }
 //-----------------------------------------------------------------
 // END main

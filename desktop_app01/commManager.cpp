@@ -17,12 +17,12 @@ DWORD WINAPI CommManager::StaticReceiver(LPVOID lpParam)
 
 DWORD CommManager::receiver()
 {
-	Payload payload;
+	SerializablePayload payload;
 	bool responseResult;
 	TTcpConnectedPort conn = *connection;
 	while (true)
 	{
-		if (!TcpRecvCommand(&conn, &payload)) {
+		if (!TcpRecvObject(&conn, &payload)) {
 			std::cout << "failed to receive payload" << endl;
 			continue;
 		}
@@ -52,8 +52,8 @@ DWORD CommManager::receiver()
 }
 bool CommManager::connect(const bool secureMode)
 {
-	return connect("192.168.0.106", "5010", secureMode);
-	//return connect("127.0.0.1", "5000", secureMode);
+	//return connect("192.168.0.106", "5010", secureMode);
+	return connect("127.0.0.1", "5000", secureMode);
 }
 
 bool CommManager::connect(const string& hostname, const string& portname, const bool secureMode)
@@ -72,11 +72,11 @@ bool CommManager::send(int cmd, int payload1)
 {
 	if (connection == nullptr) return false;
 
-	Payload payload;
+	SerializablePayload payload;
 	payload.data_id = cmd;
-	payload.data_length = 0;
+	payload.i1 = payload1;
 
-	int ret = TcpSendCommand(connection, &payload);
+	int ret = TcpSendObject(connection, &payload);
 	return ret >= 0;
 }
 
@@ -119,13 +119,4 @@ void CommManager::disconnect()
 	}
 	CloseTcpConnectedPort(&connection);
 	connection = nullptr;
-}
-
-Payload* CommManager::createCmdPacket(int cmd)
-{
-	Payload* payload = new Payload();
-	payload->data_id = cmd;
-	payload->data_length = 0;
-	// payload->data = NULL; // TODO: set to NULL
-	return payload;
 }

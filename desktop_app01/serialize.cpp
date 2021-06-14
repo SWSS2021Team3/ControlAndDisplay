@@ -51,8 +51,17 @@ const char* SerializableP<std::string>::deserialize(const char* src, std::string
 void foo()
 {
 	int i = 9;
+
 	char* buf = new char[SerializableP<int>::serialize_size(i)];
 	SerializableP<int>::serialize(buf, i);
 	SerializableP<int>::deserialize(buf, i);
 	delete[] buf;
+
+	uint16_t us = 0;
+
+	buf = new char[SerializableP<uint16_t>::serialize_size(us)];
+	SerializableP<uint16_t>::serialize(buf, us);
+	SerializableP<uint16_t>::deserialize(buf, us);
+	delete[] buf;
+
 }
