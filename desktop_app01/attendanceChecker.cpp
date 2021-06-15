@@ -5,6 +5,7 @@ AttendanceChecker::AttendanceChecker()
 	commManager = new CommManager();
 	userAuthManager = new UserAuthManager(commManager);
 	studentController = new StudentController(commManager, userAuthManager);
+	attendanceController = new AttendanceController(commManager);
 }
 
 AttendanceChecker::~AttendanceChecker()
@@ -62,4 +63,19 @@ void AttendanceChecker::setStudentViewHandler(StudentViewHandler* vh)
 void AttendanceChecker::setUserAuthViewHandler(UserAuthViewHandler* vh)
 {
 	userAuthManager->setViewHandler(vh);
+}
+
+void AttendanceChecker::setAttendanceViewHandler(AttendanceViewHandler* vh)
+{
+	attendanceController->setViewHandler(vh);
+}
+
+void AttendanceChecker::startVideo()
+{
+	attendanceController->videoStart();
+}
+
+void AttendanceChecker::endVideo()
+{
+	attendanceController->videoEnd();
 }

@@ -57,6 +57,18 @@ DWORD CommManager::receiver()
 			}
 			break;
 		}
+		case SIGNAL_FM_RESP_VIDEO_FRAME:
+		{
+			cv::Mat frame;
+			responseResult = TcpRecvImageAsJpeg(&conn, &frame);
+			if (responseResult)
+			{
+				if (videoListener != nullptr)
+				{
+					videoListener->onVideoFrameReceive(frame);
+				}
+			}
+		}
 		default:
 			break;
 		}
@@ -66,8 +78,8 @@ DWORD CommManager::receiver()
 }
 bool CommManager::connect(const bool secureMode)
 {
-	//return connect("192.168.0.106", "5010", secureMode);
-	return connect("127.0.0.1", "5000", secureMode);
+	return connect("192.168.0.106", "5010", secureMode);
+	//return connect("127.0.0.1", "5000", secureMode);
 }
 
 bool CommManager::connect(const string& hostname, const string& portname, const bool secureMode)
@@ -122,6 +134,16 @@ bool CommManager::isConnected()
 bool CommManager::recvVideo(cv::Mat* frame)
 {
 	return TcpRecvImageAsJpeg(connection, frame);
+}
+
+bool CommManager::requestVideoStart()
+{
+	return send(SIGNAL_FM_REQ_VIDEO_START);
+}
+
+bool CommManager::requestVideoEnd()
+{
+	return send(SIGNAL_FM_REQ_VIDEO_END);
 }
 
 void CommManager::disconnect()

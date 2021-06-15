@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="attendanceChecker.h" />
+    <ClInclude Include="attendanceController.h" />
     <ClInclude Include="attendanceView.h" />
     <ClInclude Include="commManager.h" />
     <ClInclude Include="framework.h" />
@@ -170,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="attendanceChecker.cpp" />
+    <ClCompile Include="attendanceController.cpp" />
     <ClCompile Include="attendanceView.cpp" />
     <ClCompile Include="commManager.cpp" />
     <ClCompile Include="serialize.cpp" />

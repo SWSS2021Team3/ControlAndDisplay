@@ -48,7 +48,7 @@ const char* SerializableP<std::string>::deserialize(const char* src, std::string
 	return src + serialize_size(v);
 }
 
-void foo()
+void GenerateTemplateMethods()
 {
 	int i = 9;
 

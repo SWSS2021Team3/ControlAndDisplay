@@ -13,6 +13,7 @@ using namespace std;
 class CommManagerInterface {
 protected:
 	FaceImageListener* faceImageListener = nullptr;
+	VideoListener* videoListener = nullptr;
 
 public:
 	virtual bool connect(const bool secureMode) = 0;
@@ -20,9 +21,15 @@ public:
 	virtual bool requestFaces(const int uid) = 0;
 	virtual bool requestAddFace(const int uid, const int numberOfImages) = 0;
 	virtual void disconnect() = 0;
-	void setFaceImageListener(FaceImageListener* f)
+	virtual bool requestVideoStart() = 0;
+	virtual bool requestVideoEnd() = 0;
+	void setFaceImageListener(FaceImageListener* l)
 	{
-		faceImageListener = f;
+		faceImageListener = l;
+	}
+	void setVideoListener(VideoListener* l)
+	{
+		videoListener = l;
 	}
 };
 
@@ -46,5 +53,8 @@ public:
 	void disconnect();
 	bool isConnected();
 	bool recvVideo(cv::Mat* frame);
+
+	bool requestVideoStart();
+	bool requestVideoEnd();
 };
 

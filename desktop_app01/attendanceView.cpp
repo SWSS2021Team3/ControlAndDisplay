@@ -1,12 +1,20 @@
 #include "attendanceView.h"
 #include "resource.h"
 
+
 BOOL AttendanceView::eventHandler(HWND hWnd, UINT message, DWORD dwParam)
 {
 	if (!acs->recvVideo()) return FALSE;
 
 	cv::Mat& frame = acs->getVideoFrame();
 
+	renderVideo(frame);
+
+	return TRUE;
+}
+
+void AttendanceView::renderVideo(cv::Mat& frame)
+{
 	int bpp = 8 * (int)frame.elemSize();
 
 	int padding = 0;
@@ -72,7 +80,7 @@ BOOL AttendanceView::eventHandler(HWND hWnd, UINT message, DWORD dwParam)
 		imgx, imgy, imgWidth, imgHeight,
 		mat_temp.data, m_pBitmapInfo, DIB_RGB_COLORS, SRCCOPY);
 
-	return TRUE;
+	return;
 }
 
 INT_PTR AttendanceView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
@@ -94,6 +102,12 @@ INT_PTR AttendanceView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 		case IDC_TEMP_BUTTON2:
 			SendMessage(hWndParent, WM_COMMAND, IDD_STUDENT_FORMVIEW, NULL);
 			break;
+		case IDC_VIDEO_START_BUTTON:
+			acs->startVideo();
+			break;
+		case IDC_VIDEO_END_BUTTON:
+			acs->endVideo();
+			break;
 		case IDCANCEL:
 			EndDialog(hWnd, wParam);
 			break;
@@ -108,10 +122,16 @@ INT_PTR AttendanceView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 AttendanceView::AttendanceView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecker *ac) : View(_hWndParent), acs(ac)
 {
 	hWnd = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_ATTENDANCE_FORMVIEW), _hWndParent, (DLGPROC)StaticDlgProc, reinterpret_cast<LPARAM>(this));
+	acs->setAttendanceViewHandler(this);
 }
 
 void AttendanceView::start()
 {
 	// initialize
 	show();
+}
+
+void AttendanceView::onVideoUpdate(cv::Mat& frame)
+{
+	renderVideo(frame);
 }

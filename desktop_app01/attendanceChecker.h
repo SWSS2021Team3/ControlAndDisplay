@@ -4,6 +4,7 @@
 #include "commManager.h"
 #include "userAuthManager.h"
 #include "studentController.h"
+#include "attendanceController.h"
 #include "viewHandler.h"
 
 class AttendanceChecker
@@ -12,6 +13,7 @@ private:
 	CommManager* commManager = nullptr;
 	UserAuthManager* userAuthManager = nullptr;
 	StudentController* studentController = nullptr;
+	AttendanceController* attendanceController = nullptr;
 
 	cv::Mat mat_frame;
 
@@ -20,6 +22,7 @@ public:
 	~AttendanceChecker();
 	void setStudentViewHandler(StudentViewHandler* vh);
 	void setUserAuthViewHandler(UserAuthViewHandler* vh);
+	void setAttendanceViewHandler(AttendanceViewHandler* vh);
 	bool login(const string& username, const string& password, const bool secureMode);
 	bool isLogin();
 	bool recvVideo();
@@ -28,4 +31,7 @@ public:
 	void fetchFaceImages();
 	void addFaceImage();
 	vector<cv::Mat>& getFaces();
+
+	void startVideo();
+	void endVideo();
 };
