@@ -69,6 +69,12 @@ DWORD CommManager::receiver()
 				}
 			}
 		}
+		case SIGNAL_FM_RESP_USER_ATTEND:
+		{
+			if (videoListener != nullptr)
+				videoListener->onUserAttend("Michel");
+			break;
+		}
 		default:
 			break;
 		}

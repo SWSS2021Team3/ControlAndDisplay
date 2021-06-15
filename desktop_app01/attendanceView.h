@@ -14,10 +14,12 @@ private:
 	INT_PTR DlgProc(UINT message, WPARAM wParam, LPARAM lParam);
 	BOOL eventHandler(HWND hWnd, UINT message, DWORD dwParam);
 	void renderVideo(cv::Mat& frame);
+	void updateUserAttendance(std::string username);
 
 public:
 	AttendanceView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecker *ac);
 	void start();
 
 	void onVideoUpdate(cv::Mat& frame);
+	void onAttendanceUpdate(std::string username);
 };

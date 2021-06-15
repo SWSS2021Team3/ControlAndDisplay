@@ -22,6 +22,7 @@ public:
 	void videoStart();
 	void videoEnd();
 	void onVideoFrameReceive(cv::Mat& image);
+	void onUserAttend(std::string username);
 
 	void setViewHandler(AttendanceViewHandler* vh);
 };

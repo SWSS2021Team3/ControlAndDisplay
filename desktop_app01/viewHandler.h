@@ -20,4 +20,5 @@ class AttendanceViewHandler
 {
 public:
 	virtual void onVideoUpdate(cv::Mat& image) = 0;
+	virtual void onAttendanceUpdate(std::string username) = 0;
 };

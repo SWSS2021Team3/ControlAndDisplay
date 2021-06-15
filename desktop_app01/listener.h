@@ -12,4 +12,5 @@ class VideoListener
 {
 public:
 	virtual void onVideoFrameReceive(cv::Mat& image) = 0;
+	virtual void onUserAttend(std::string username) = 0;
 };

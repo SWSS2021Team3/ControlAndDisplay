@@ -23,6 +23,12 @@ void AttendanceController::onVideoFrameReceive(cv::Mat& image)
 		viewHandler->onVideoUpdate(image);
 }
 
+void AttendanceController::onUserAttend(std::string username)
+{
+	if (viewHandler != nullptr)
+		viewHandler->onAttendanceUpdate(username);
+}
+
 void AttendanceController::setViewHandler(AttendanceViewHandler* vh)
 {
 	viewHandler = vh;

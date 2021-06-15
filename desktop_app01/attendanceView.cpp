@@ -83,6 +83,19 @@ void AttendanceView::renderVideo(cv::Mat& frame)
 	return;
 }
 
+void AttendanceView::updateUserAttendance(std::string username)
+{
+	std::wstring wide_string = std::wstring(username.begin(), username.end());
+	const wchar_t* result = wide_string.c_str();
+	WCHAR text[610];
+
+	UINT c1 = GetDlgItemText(hWnd, IDC_ATTENDANCE_LIST_STATIC, text, 500);
+	lstrcatW(text, L"\n");
+	lstrcatW(text, result);
+	SetDlgItemText(hWnd, IDC_ATTENDANCE_LIST_STATIC, text);
+}
+
+
 INT_PTR AttendanceView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
@@ -134,4 +147,9 @@ void AttendanceView::start()
 void AttendanceView::onVideoUpdate(cv::Mat& frame)
 {
 	renderVideo(frame);
+}
+
+void AttendanceView::onAttendanceUpdate(std::string username)
+{
+	updateUserAttendance(username);
 }
