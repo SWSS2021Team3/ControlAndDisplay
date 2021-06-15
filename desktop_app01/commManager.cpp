@@ -1,11 +1,18 @@
 #include <opencv2/opencv.hpp>
 #include "commManager.h"
 #include "Payload.h"
+#include "SecurityManagerAcs.h"
+
+CommManager::CommManager()
+{
+	securityManager = new SecurityManagerAcs;
+}
 
 CommManager::~CommManager()
 {
 	if (isConnected())
 		disconnect();
+	delete securityManager;
 }
 
 DWORD WINAPI CommManager::StaticReceiver(LPVOID lpParam)
@@ -95,6 +102,11 @@ bool CommManager::connect(const string& hostname, const string& portname, const 
 
 	if ((connection = OpenTcpConnection(hostname.c_str(), portname.c_str())) == NULL)
 		return false;
+	if (secureMode) {
+		connection->secureMode = true;
+		connection->ssl = securityManager->getSecureNeworkContext();
+		securityManager->setNetworkSd(connection->ssl, connection->ConnectedFd);
+	}
 	if (!hThread)
 		hThread = CreateThread(NULL, 0, CommManager::StaticReceiver, (LPVOID)this, 0, &tid);
 	return true;
