@@ -1,5 +1,10 @@
 #include "userAuthManager.h"
 
+UserAuthManager::UserAuthManager(CommManagerInterface* comm) : commManager(comm)
+{
+	comm->setUserListener(this);
+}
+
 bool UserAuthManager::login(const string& username, const string& password, const bool secureMode)
 {
 	if (commManager == nullptr)
@@ -14,21 +19,7 @@ bool UserAuthManager::login(const string& username, const string& password, cons
 			viewHandler->onConnectFailed();
 		return false;
 	}
-	User user = commManager->login(username, password);
-
-	if (user.uid < 0)
-	{
-		commManager->disconnect();
-		if (viewHandler)
-			viewHandler->onLoginFailed();
-		return false;
-	}
-
-	currentUser = user;
-	if (viewHandler)
-		viewHandler->onLoginSuccess(user);
-
-	return true;
+	return commManager->login(username, password);
 }
 
 void UserAuthManager::logout()
@@ -45,4 +36,20 @@ User UserAuthManager::getCurrentUser()
 void UserAuthManager::setViewHandler(UserAuthViewHandler* vh)
 {
 	viewHandler = vh;
+}
+
+void UserAuthManager::onUserLogin(bool success, int uid, std::string s)
+{
+	if (!success)
+	{
+		commManager->disconnect();
+		if (viewHandler)
+			viewHandler->onLoginFailed();
+		return;
+	}
+
+	currentUser.uid = uid;
+	currentUser.username = s;
+	if (viewHandler)
+		viewHandler->onLoginSuccess(currentUser);
 }

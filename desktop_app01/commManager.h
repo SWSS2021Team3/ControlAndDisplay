@@ -15,10 +15,11 @@ class CommManagerInterface {
 protected:
 	FaceImageListener* faceImageListener = nullptr;
 	VideoListener* videoListener = nullptr;
+	UserListener* userListener = nullptr;
 
 public:
 	virtual bool connect(const bool secureMode) = 0;
-	virtual User login(const string& username, const string& password) = 0;
+	virtual bool login(const string& username, const string& password) = 0;
 	virtual bool requestFaces(const int uid) = 0;
 	virtual bool requestAddFace(const int uid, const int numberOfImages) = 0;
 	virtual void disconnect() = 0;
@@ -32,6 +33,10 @@ public:
 	{
 		videoListener = l;
 	}
+	void setUserListener(UserListener* l)
+	{
+		userListener = l;
+	}
 };
 
 class CommManager : public CommManagerInterface {
@@ -40,8 +45,11 @@ private:
 	HANDLE hThread = 0;
 	DWORD tid;
 	static DWORD WINAPI StaticReceiver(LPVOID lpParam);
-	bool send(int cmd);
-	bool send(int cmd, int payload1);
+	bool send(const int cmd);
+	bool send(const int cmd, const int v);
+	bool send(const int cmd, const std::string s);
+	bool send(const int cmd, const int v, const std::string s);
+	bool send(const int cmd, const std::string s1, const std::string s2);
 	SecurityManagerAcs* securityManager;
 public:
 	CommManager();
@@ -49,7 +57,7 @@ public:
 	DWORD receiver();
 	bool connect(const bool secureMode);
 	bool connect(const string& hostname, const string& portname, const bool secureMode);
-	User login(const string& username, const string& password);
+	bool login(const string& username, const string& password);
 	bool requestFaces(const int uid);
 	bool requestAddFace(const int uid, const int numberOfImages);
 	void disconnect();

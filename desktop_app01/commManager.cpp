@@ -82,6 +82,18 @@ DWORD CommManager::receiver()
 				videoListener->onUserAttend(payload.str1);
 			break;
 		}
+		case SIGNAL_FM_RESP_LOGIN_OK:
+		{
+			if (userListener != nullptr)
+				userListener->onUserLogin(true, payload.i1, payload.str1);
+			break;
+		}
+		case SIGNAL_FM_RESP_LOGIN_FAILED:
+		{
+			if (userListener != nullptr)
+				userListener->onUserLogin(false, 0, "");
+			break;
+		}
 		default:
 			break;
 		}
@@ -112,7 +124,18 @@ bool CommManager::connect(const string& hostname, const string& portname, const 
 	return true;
 }
 
-bool CommManager::send(int cmd, int payload1)
+bool CommManager::send(const int cmd)
+{
+	if (connection == nullptr) return false;
+
+	SerializablePayload payload;
+	payload.data_id = cmd;
+
+	int ret = TcpSendObject(connection, &payload);
+	return ret >= 0;
+}
+
+bool CommManager::send(const int cmd, const int payload1)
 {
 	if (connection == nullptr) return false;
 
@@ -124,14 +147,50 @@ bool CommManager::send(int cmd, int payload1)
 	return ret >= 0;
 }
 
-bool CommManager::send(int cmd)
+bool CommManager::send(const int cmd, const std::string s)
 {
-	return send(cmd, 0);
+	if (connection == nullptr) return false;
+
+	SerializablePayload payload;
+	payload.data_id = cmd;
+	payload.str1 = s;
+
+	int ret = TcpSendObject(connection, &payload);
+	return ret >= 0;
+
 }
 
-User CommManager::login(const string& username, const string& password)
+bool CommManager::send(const int cmd, const int v, const std::string s)
 {
-	return { 3, username };
+	if (connection == nullptr) return false;
+
+	SerializablePayload payload;
+	payload.data_id = cmd;
+	payload.i1 = v;
+	payload.str1 = s;
+
+	int ret = TcpSendObject(connection, &payload);
+	return ret >= 0;
+
+}
+
+bool CommManager::send(const int cmd, const std::string s1, const std::string s2)
+{
+	if (connection == nullptr) return false;
+
+	SerializablePayload payload;
+	payload.data_id = cmd;
+	payload.str1 = s1;
+	payload.str2 = s2;
+
+	int ret = TcpSendObject(connection, &payload);
+	return ret >= 0;
+
+}
+
+bool CommManager::login(const string& username, const string& password)
+{
+	return send(SIGNAL_FM_REQ_LOGIN, username, password);
 }
 
 bool CommManager::requestFaces(const int uid)
