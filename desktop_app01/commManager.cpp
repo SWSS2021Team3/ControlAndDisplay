@@ -72,7 +72,7 @@ DWORD CommManager::receiver()
 		case SIGNAL_FM_RESP_USER_ATTEND:
 		{
 			if (videoListener != nullptr)
-				videoListener->onUserAttend("Michel");
+				videoListener->onUserAttend(payload.str1);
 			break;
 		}
 		default:

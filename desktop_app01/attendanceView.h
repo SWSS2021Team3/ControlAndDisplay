@@ -15,6 +15,7 @@ private:
 	BOOL eventHandler(HWND hWnd, UINT message, DWORD dwParam);
 	void renderVideo(cv::Mat& frame);
 	void updateUserAttendance(std::string username);
+	void clearUserAttendance();
 
 public:
 	AttendanceView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecker *ac);
