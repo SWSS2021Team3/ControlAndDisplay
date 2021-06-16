@@ -24,6 +24,7 @@ public:
 	AttendanceController(CommManagerInterface* comm);
 	void videoStart();
 	void videoEnd();
+	void switchVideo(std::string videoname);
 	void clearList();
 	void onVideoFrameReceive(cv::Mat& image);
 	void onUserAttend(std::string username);

@@ -35,4 +35,7 @@ public:
 	void startVideo();
 	void endVideo();
 	void clearAttendanceList();
+
+	void switchToLive();
+	void switchToRecord(std::string recordfile);
 };

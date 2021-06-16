@@ -129,6 +129,12 @@ INT_PTR AttendanceView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 			acs->clearAttendanceList();
 			clearUserAttendance();
 			break;
+		case IDC_TEMP_LIVE_BUTTON:
+			acs->switchToLive();
+			break;
+		case IDC_RECORDED_TEMP_BUTTON:
+			acs->switchToRecord("friends640x480.mp4");
+			break;
 		case IDCANCEL:
 			EndDialog(hWnd, wParam);
 			break;

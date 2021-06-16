@@ -223,6 +223,13 @@ bool CommManager::requestVideoEnd()
 	return send(SIGNAL_FM_REQ_VIDEO_END);
 }
 
+bool CommManager::requestVideoSource(std::string videoname)
+{
+	if (videoname == "live")
+		return send(SIGNAL_FM_REQ_VIDEO_LIVE);
+	return send(SIGNAL_FM_REQ_VIDEO_RECORD, videoname);
+}
+
 void CommManager::disconnect()
 {
 	send(SIGNAL_FM_REQ_DISCONNECT);

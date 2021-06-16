@@ -25,6 +25,8 @@ public:
 	virtual void disconnect() = 0;
 	virtual bool requestVideoStart() = 0;
 	virtual bool requestVideoEnd() = 0;
+	virtual bool requestVideoSource(std::string videoname) = 0;
+
 	void setFaceImageListener(FaceImageListener* l)
 	{
 		faceImageListener = l;
@@ -66,5 +68,6 @@ public:
 
 	bool requestVideoStart();
 	bool requestVideoEnd();
+	bool requestVideoSource(std::string videoname);
 };
 

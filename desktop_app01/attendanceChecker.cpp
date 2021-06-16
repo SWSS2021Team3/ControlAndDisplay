@@ -84,3 +84,13 @@ void AttendanceChecker::clearAttendanceList()
 {
 	attendanceController->clearList();
 }
+
+void AttendanceChecker::switchToLive()
+{
+	attendanceController->switchVideo("live");
+}
+
+void AttendanceChecker::switchToRecord(std::string recordfile)
+{
+	attendanceController->switchVideo(recordfile);
+}

@@ -17,6 +17,12 @@ void AttendanceController::videoEnd()
 	commManager->requestVideoEnd();
 }
 
+void AttendanceController::switchVideo(std::string videoname)
+{
+	if (commManager == nullptr) return;
+	commManager->requestVideoSource(videoname);
+}
+
 void AttendanceController::clearList()
 {
 	attendanceSet.clear();

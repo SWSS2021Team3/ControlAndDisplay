@@ -30,6 +30,9 @@
 #define IDC_VIDEO_END_BUTTON            1023
 #define IDC_VIDEO_CLEAR_BUTTON          1024
 #define IDC_ATTENDANCE_LIST_STATIC      1025
+#define IDC_TEMP_LIVE_BUTTON1           1026
+#define IDC_TEMP_LIVE_BUTTON            1026
+#define IDC_RECORDED_TEMP_BUTTON        1027
 
 // Next default values for new objects
 // 
@@ -37,7 +40,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        107
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1026
+#define _APS_NEXT_CONTROL_VALUE         1028
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
