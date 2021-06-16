@@ -28,8 +28,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	userAuthView->start();
 
 	MSG msg;
-	while (IsWindow(hDlgWnd) && GetMessage(&msg, 0, 0, 0)) {
-		if (!IsDialogMessage(hDlgWnd, &msg)) {
+	while (IsWindow(hDlgWnd) && GetMessage(&msg, 0, 0, 0xFFFF)) {
+		if (!IsDialogMessage(hDlgWnd, &msg))
+		{
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}

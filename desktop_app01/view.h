@@ -5,7 +5,6 @@
 class View
 {
 protected:
-	HWND hWnd;
 	HWND hWndParent;
 
 	static INT_PTR CALLBACK StaticDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARAM lParam);
@@ -14,6 +13,7 @@ protected:
 	virtual INT_PTR DlgProc(UINT message, WPARAM wParam, LPARAM lParam) = 0;
 	virtual BOOL eventHandler(HWND hWnd, UINT message, DWORD dwParam) = 0;
 public:
+	HWND hWnd;
 	View(HWND _hWndParent) : hWndParent(_hWndParent) {}
 	~View();
 	void show();

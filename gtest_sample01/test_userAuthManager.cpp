@@ -11,17 +11,14 @@ using testing::_;
 TEST(Login, login_success_with_correct_password) {
 	std::string username = "user1";
 	std::string correctPassword = "prngj9tug1";
-	User correctUser = { 501, username };
 
 	MockCommManager commManager;
 	EXPECT_CALL(commManager, connect(false)).WillOnce(Return(true));
-	EXPECT_CALL(commManager, login(username, correctPassword)).WillOnce(Return(false));
+	EXPECT_CALL(commManager, login(username, correctPassword));
 
 	UserAuthManager uam(&commManager);
 
-	EXPECT_TRUE(uam.login(username, correctPassword, false));
-	EXPECT_EQ(uam.getCurrentUser().uid, correctUser.uid);
-	EXPECT_EQ(uam.getCurrentUser().username, correctUser.username);
+	uam.login(username, correctPassword, false);
 }
 
 TEST(Login, login_failed_with_incorrect_password) {
