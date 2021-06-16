@@ -62,28 +62,20 @@ void* SecurityManagerAcs::getSecureNeworkContext()
 
 int SecurityManagerAcs::freeSecureNetworkContext(void* p)
 {
-    SSL_free((SSL*)p);
-    SSL_CTX_free((SSL_CTX*)secureNetworkContext);
+    if (p != nullptr) {
+        SSL_free((SSL*)p);
+        SSL_CTX_free((SSL_CTX*)secureNetworkContext);
+    }
     return 0;
 }
 
 void SecurityManagerAcs::setNetworkSd(void* p, int sd)
 {
-    SSL* ssl = reinterpret_cast<SSL*>(p);
-    SSL_set_fd(ssl, sd);
-    SSL_connect(ssl);
-}
-
-bool fileExists(TCHAR* file)
-{
-    WIN32_FIND_DATA FindFileData;
-    HANDLE handle = FindFirstFile(file, &FindFileData);
-    bool found = (handle != INVALID_HANDLE_VALUE);
-    if (found)
-    {
-        FindClose(handle);
+    if (p != nullptr) {
+        SSL* ssl = reinterpret_cast<SSL*>(p);
+        SSL_set_fd(ssl, sd);
+        SSL_connect(ssl);
     }
-    return found;
 }
 
 std::string readFile(const std::string& path)
