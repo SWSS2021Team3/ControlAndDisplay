@@ -116,8 +116,10 @@ INT_PTR AttendanceView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
-		case IDC_TEMP_BUTTON2:
-			SendMessage(hWndParent, WM_COMMAND, IDD_STUDENT_FORMVIEW, NULL);
+		case IDC_LOGOUT_BUTTON2:
+			acs->logout();
+			SendMessage(hWndParent, WM_COMMAND, IDD_USER_AUTH_FORMVIEW, NULL);
+			//SendMessage(hWndParent, WM_COMMAND, IDD_STUDENT_FORMVIEW, NULL); // move to studentView
 			break;
 		case IDC_VIDEO_START_BUTTON:
 			acs->startVideo();

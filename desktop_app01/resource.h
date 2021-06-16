@@ -25,12 +25,12 @@
 #define IDC_CMODE_RADIO2                1018
 #define IDC_LOGIN_BUTTON                1019
 #define IDC_TEMP_BUTTON2                1020
+#define IDC_LOGOUT_BUTTON2              1020
 #define IDC_ATTENDANCE_TITLE_STATIC     1021
 #define IDC_VIDEO_START_BUTTON          1022
 #define IDC_VIDEO_END_BUTTON            1023
 #define IDC_VIDEO_CLEAR_BUTTON          1024
 #define IDC_ATTENDANCE_LIST_STATIC      1025
-#define IDC_TEMP_LIVE_BUTTON1           1026
 #define IDC_TEMP_LIVE_BUTTON            1026
 #define IDC_RECORDED_TEMP_BUTTON        1027
 

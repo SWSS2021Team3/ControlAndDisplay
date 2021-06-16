@@ -101,5 +101,8 @@ void UserAuthView::onLoginSuccess(User user)
 	wsprintf(msg, L"Welcome");
 	MessageBox(hWnd, msg, L"", MB_OK);
 
+	SetDlgItemText(hWnd, IDC_USERNAME_EDIT, L"");
+	SetDlgItemText(hWnd, IDC_PASSWORD_EDIT, L"");
+
 	SendMessage(hWndParent, WM_COMMAND, user.isAdmin ? IDD_ATTENDANCE_FORMVIEW:IDD_STUDENT_FORMVIEW, NULL);
 }
