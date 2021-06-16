@@ -225,6 +225,8 @@ bool CommManager::requestVideoEnd()
 
 void CommManager::disconnect()
 {
+	send(SIGNAL_FM_REQ_DISCONNECT);
+	Sleep(300);
 	if (hThread)
 	{
 		CloseHandle(hThread);
