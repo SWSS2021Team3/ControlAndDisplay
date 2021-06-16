@@ -4,9 +4,12 @@
 #include <tchar.h>
 #include <iostream>
 #include <algorithm>
-#include "openssl/ssl.h"
+#include <sstream>
 
-SecurityManagerAcs::SecurityManagerAcs()
+#include "openssl/ssl.h"
+#include "openssl/cms.h"
+
+SecurityManagerAcs::SecurityManagerAcs() : secureNetworkContext(nullptr)
 {
     keymap["client.key"] = std::string();
     keymap["client.crt"] = std::string();
@@ -148,4 +151,57 @@ bool SecurityManagerAcs::readKey()
     }
 
     return ret;
+}
+
+int cmsVerify(std::string& sign, std::string& content, std::string& rootca) {
+    BIO* bio_sign;
+    CMS_ContentInfo* cms;
+    BIO* bio_content;
+    BIO* bio_ca;
+    X509* x509_ca;
+    int ret = -1;
+
+    auto cms_der_in = reinterpret_cast<const unsigned char*>(sign.c_str());
+    long cms_der_length = sign.size();
+
+    cms = d2i_CMS_ContentInfo(NULL, &cms_der_in, cms_der_length);
+
+    bio_content = BIO_new_mem_buf(content.c_str(), content.size());
+    bio_ca = BIO_new_mem_buf(rootca.c_str(), rootca.size());
+    x509_ca = PEM_read_bio_X509(bio_ca, NULL, NULL, NULL);
+
+    X509_STORE* store = X509_STORE_new();
+    X509_STORE_add_cert(store, x509_ca);
+
+    int flags = CMS_BINARY;
+    if (CMS_verify(cms, NULL, store, bio_content, NULL, flags) == 1) {
+        ret = 1;
+    }
+
+    X509_STORE_free(store);
+    X509_free(x509_ca);
+    BIO_free(bio_ca);
+    BIO_free(bio_content);
+    CMS_ContentInfo_free(cms);
+    //BIO_free(bio_sign);
+
+    return ret;
+}
+
+bool SecurityManagerAcs::readConfig(std::string& ip, std::string& port, std::string& secureport)
+{
+    std::string sign = readFile("clientconf.sign");
+    std::string content = readFile("clientconf.bin");
+    std::string rootca = readFile("rootca.crt");
+
+    if (1 != cmsVerify(sign, content, rootca)) {
+        return false;
+    }
+
+    std::istringstream iss(content);
+    std::getline(iss, ip);
+    std::getline(iss, port);
+    std::getline(iss, secureport);
+
+    return true;
 }

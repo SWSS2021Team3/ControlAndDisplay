@@ -103,9 +103,18 @@ DWORD CommManager::receiver()
 }
 bool CommManager::connect(const bool secureMode)
 {
+	std::string ip = "192.168.0.106";
+	std::string port = "5000";
+	std::string secureport = "5001";
 	securityManager->readKey(); //fixme: abort if return false
-	return connect("192.168.0.106", "5010", secureMode);
-	//return connect("127.0.0.1", "5000", secureMode);
+	securityManager->readConfig(ip, port, secureport);
+
+	if (secureMode) {
+		return connect(ip, secureport, secureMode);
+	}
+	else {
+		return connect(ip, port, secureMode);
+	}
 }
 
 bool CommManager::connect(const string& hostname, string portname, const bool secureMode)
