@@ -75,9 +75,6 @@
     <ClInclude Include="attendanceController.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="SecurityManagerAcs.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="desktop_app01.rc">
@@ -125,9 +122,6 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="attendanceController.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="SecurityManagerAcs.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

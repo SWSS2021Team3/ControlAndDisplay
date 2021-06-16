@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "NetworkTCP.h"
-#include <openssl/ssl.h>
 //-----------------------------------------------------------------
 // OpenTCPListenPort - Creates a Listen TCP port to accept
 // connection requests
@@ -116,8 +115,6 @@ TTcpConnectedPort *AcceptTcpConnection(TTcpListenPort *TcpListenPort,
       fprintf(stderr, "TUdpPort memory allocation failed\n");
       return(NULL);
      }
-  TcpConnectedPort->ssl = nullptr;
-  TcpConnectedPort->secureMode = false;
   TcpConnectedPort->ConnectedFd= accept(TcpListenPort->ListenFd,
                       (struct sockaddr *) cli_addr,clilen);
 					  
@@ -169,8 +166,6 @@ TTcpConnectedPort *OpenTcpConnection(const char *remotehostname, const char * re
       fprintf(stderr, "TUdpPort memory allocation failed\n");
       return(NULL);
      }
-  TcpConnectedPort->ssl = nullptr;
-  TcpConnectedPort->secureMode = false;
   TcpConnectedPort->ConnectedFd=BAD_SOCKET_FD;
   #if  defined(_WIN32) || defined(_WIN64)
   WSADATA wsaData;
@@ -269,17 +264,9 @@ ssize_t ReadDataTcp(TTcpConnectedPort *TcpConnectedPort,unsigned char *data, siz
  for (size_t i = 0; i < length; i += bytes)
     {
       if (!TcpConnectedPort) return -1;
-      if (TcpConnectedPort->secureMode) {
-          int ret = SSL_read_ex((SSL*)TcpConnectedPort->ssl, (char*)(data + i), length - i, (size_t*)&bytes);
-          if (ret <= 0) {
-              return (-1);
-          }
-      }
-      else {
-          if ((bytes = recv(TcpConnectedPort->ConnectedFd, (char*)(data + i), length - i, 0)) == -1)
-          {
-              return (-1);
-          }
+      if ((bytes = recv(TcpConnectedPort->ConnectedFd, (char *)(data+i), length  - i,0)) == -1) 
+      {
+       return (-1);
       }
     }
   return(length);
@@ -296,17 +283,9 @@ ssize_t WriteDataTcp(TTcpConnectedPort *TcpConnectedPort,unsigned char *data, si
   ssize_t bytes_written;
   while (total_bytes_written != length)
     {
-      if (TcpConnectedPort->secureMode) {
-          int ret = SSL_write_ex((SSL*)TcpConnectedPort->ssl, (char*)(data + total_bytes_written), length - total_bytes_written, (size_t*)&bytes_written);
-          if (ret <= 0) {
-              bytes_written = -1;
-          }
-      }
-      else {
-          bytes_written = send(TcpConnectedPort->ConnectedFd,
-              (char*)(data + total_bytes_written),
-              length - total_bytes_written, 0);
-      }
+     bytes_written = send(TcpConnectedPort->ConnectedFd,
+	                               (char *)(data+total_bytes_written),
+                                  length - total_bytes_written,0);
      if (bytes_written == -1)
        {
        return(-1);

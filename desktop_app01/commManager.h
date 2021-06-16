@@ -9,7 +9,6 @@
 #include "listener.h"
 
 using namespace std;
-class SecurityManagerAcs;
 
 class CommManagerInterface {
 protected:
@@ -42,9 +41,8 @@ private:
 	static DWORD WINAPI StaticReceiver(LPVOID lpParam);
 	bool send(int cmd);
 	bool send(int cmd, int payload1);
-	SecurityManagerAcs* securityManager;
+
 public:
-	CommManager();
 	~CommManager();
 	DWORD receiver();
 	bool connect(const bool secureMode);
