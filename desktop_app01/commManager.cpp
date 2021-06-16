@@ -103,6 +103,7 @@ DWORD CommManager::receiver()
 }
 bool CommManager::connect(const bool secureMode)
 {
+	securityManager->readKey(); //fixme: abort if return false
 	return connect("192.168.0.106", "5010", secureMode);
 	//return connect("127.0.0.1", "5000", secureMode);
 }
