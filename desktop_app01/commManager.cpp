@@ -107,10 +107,16 @@ bool CommManager::connect(const bool secureMode)
 	//return connect("127.0.0.1", "5000", secureMode);
 }
 
-bool CommManager::connect(const string& hostname, const string& portname, const bool secureMode)
+bool CommManager::connect(const string& hostname, string portname, const bool secureMode)
 {
 	if (isConnected())
 		disconnect();
+
+	if (secureMode) {
+		int portNum = std::stoi(portname);
+		portNum += 10;
+		portname = std::to_string(portNum);
+	}
 
 	if ((connection = OpenTcpConnection(hostname.c_str(), portname.c_str())) == NULL)
 		return false;

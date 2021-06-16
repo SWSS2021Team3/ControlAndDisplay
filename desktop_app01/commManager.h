@@ -58,7 +58,7 @@ public:
 	~CommManager();
 	DWORD receiver();
 	bool connect(const bool secureMode);
-	bool connect(const string& hostname, const string& portname, const bool secureMode);
+	bool connect(const string& hostname, string portname, const bool secureMode);
 	bool login(const string& username, const string& password);
 	bool requestFaces(const int uid);
 	bool requestAddFace(const int uid, const int numberOfImages);
