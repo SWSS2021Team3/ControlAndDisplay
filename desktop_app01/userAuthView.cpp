@@ -100,5 +100,6 @@ void UserAuthView::onLoginSuccess(User user)
 	WCHAR msg[300];
 	wsprintf(msg, L"Welcome");
 	MessageBox(hWnd, msg, L"", MB_OK);
-	SendMessage(hWndParent, WM_COMMAND, IDD_STUDENT_FORMVIEW, NULL);
+
+	SendMessage(hWndParent, WM_COMMAND, user.isAdmin ? IDD_ATTENDANCE_FORMVIEW:IDD_STUDENT_FORMVIEW, NULL);
 }

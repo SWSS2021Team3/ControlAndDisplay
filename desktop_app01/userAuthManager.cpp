@@ -49,7 +49,8 @@ void UserAuthManager::onUserLogin(bool success, int uid, std::string s)
 	}
 
 	currentUser.uid = uid;
-	currentUser.username = s;
+	//currentUser.username = s;
+	currentUser.isAdmin = s == "admin";
 	if (viewHandler)
 		viewHandler->onLoginSuccess(currentUser);
 }

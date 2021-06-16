@@ -142,66 +142,47 @@ bool CommManager::connect(const string& hostname, string portname, const bool se
 
 bool CommManager::send(const int cmd)
 {
-	if (connection == nullptr) return false;
-
-	SerializablePayload payload;
-	payload.data_id = cmd;
-
-	int ret = TcpSendObject(connection, &payload);
-	return ret >= 0;
+	return send(cmd, 0, 0, "", "");
 }
 
-bool CommManager::send(const int cmd, const int payload1)
+bool CommManager::send(const int cmd, const int v)
 {
-	if (connection == nullptr) return false;
-
-	SerializablePayload payload;
-	payload.data_id = cmd;
-	payload.i1 = payload1;
-
-	int ret = TcpSendObject(connection, &payload);
-	return ret >= 0;
+	return send(cmd, v, 0, "", "");
 }
 
-bool CommManager::send(const int cmd, const std::string s)
+bool CommManager::send(const int cmd, const int v1, const int v2)
 {
-	if (connection == nullptr) return false;
-
-	SerializablePayload payload;
-	payload.data_id = cmd;
-	payload.str1 = s;
-
-	int ret = TcpSendObject(connection, &payload);
-	return ret >= 0;
-
+	return send(cmd, v1, v2, "", "");
 }
 
 bool CommManager::send(const int cmd, const int v, const std::string s)
 {
-	if (connection == nullptr) return false;
+	return send(cmd, v, 0, s, "");
+}
 
-	SerializablePayload payload;
-	payload.data_id = cmd;
-	payload.i1 = v;
-	payload.str1 = s;
-
-	int ret = TcpSendObject(connection, &payload);
-	return ret >= 0;
-
+bool CommManager::send(const int cmd, const std::string s)
+{
+	return send(cmd, 0, 0, s, "");
 }
 
 bool CommManager::send(const int cmd, const std::string s1, const std::string s2)
+{
+	return send(cmd, 0, 0, s1, s2);
+}
+
+bool CommManager::send(const int cmd, const int v1, const int v2, const std::string s1, const std::string s2)
 {
 	if (connection == nullptr) return false;
 
 	SerializablePayload payload;
 	payload.data_id = cmd;
+	payload.i1 = v1;
+	payload.i2 = v2;
 	payload.str1 = s1;
 	payload.str2 = s2;
 
 	int ret = TcpSendObject(connection, &payload);
 	return ret >= 0;
-
 }
 
 bool CommManager::login(const string& username, const string& password)
@@ -211,12 +192,12 @@ bool CommManager::login(const string& username, const string& password)
 
 bool CommManager::requestFaces(const int uid)
 {
-	return send(SIGNAL_FM_REQ_GET_FACES);
+	return send(SIGNAL_FM_REQ_GET_FACES, std::to_string(uid));
 }
 
 bool CommManager::requestAddFace(const int uid, const int numberOfImages)
 {
-	return send(SIGNAL_FM_REQ_FACE_ADD, uid);
+	return send(SIGNAL_FM_REQ_FACE_ADD, numberOfImages, std::to_string(uid));
 }
 
 bool CommManager::isConnected()

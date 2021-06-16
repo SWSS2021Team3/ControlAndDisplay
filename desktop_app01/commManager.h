@@ -39,9 +39,11 @@ private:
 	static DWORD WINAPI StaticReceiver(LPVOID lpParam);
 	bool send(const int cmd);
 	bool send(const int cmd, const int v);
-	bool send(const int cmd, const std::string s);
+	bool send(const int cmd, const int v1, const int v2);
 	bool send(const int cmd, const int v, const std::string s);
+	bool send(const int cmd, const std::string s);
 	bool send(const int cmd, const std::string s1, const std::string s2);
+	bool send(const int cmd, const int v1, const int v2, const std::string s1, const std::string s2);
 	SecurityManagerAcs* securityManager;
 public:
 	CommManager();
