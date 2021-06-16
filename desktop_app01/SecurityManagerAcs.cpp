@@ -12,7 +12,8 @@ void* SecurityManagerAcs::getSecureNeworkContext()
     const char* cipher_list = "TLS_AES_128_GCM_SHA256";
     const SSL_METHOD* meth = TLS_client_method();
     ctx = SSL_CTX_new(meth);
-    res = SSL_CTX_set_cipher_list(ctx, cipher_list);
+    res = SSL_CTX_set_ciphersuites(ctx, cipher_list); //work for TLS 1.3
+    //res = SSL_CTX_set_cipher_list(ctx, cipher_list); //only work for TLS 1.2
     res = SSL_CTX_set_min_proto_version(ctx, TLS1_3_VERSION);
     res = SSL_CTX_use_certificate_file(ctx, "client.crt", SSL_FILETYPE_PEM);
     res = SSL_CTX_use_PrivateKey_file(ctx, "client.key", SSL_FILETYPE_PEM);
