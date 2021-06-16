@@ -9,8 +9,14 @@ using namespace std;
 class MockCommManager : public CommManagerInterface {
 public:
 	MOCK_METHOD(bool, connect, (const bool secureMode), (override));
-	MOCK_METHOD(User, login, (const string& username, const string& password), (override));
+	MOCK_METHOD(bool, login, (const string& username, const string& password), (override));
 	MOCK_METHOD(bool, requestFaces, (const int uid), (override));
 	MOCK_METHOD(bool, requestAddFace, (const int uid, const int numberOfImages), (override));
 	MOCK_METHOD(void, disconnect, (), (override));
+	MOCK_METHOD(bool, requestVideoStart, (), (override));
+	MOCK_METHOD(bool, requestVideoEnd, (), (override));
+	MOCK_METHOD(bool, requestVideoSource, (std::string videoname), (override));
+	MOCK_METHOD(void, setFaceImageListener, (FaceImageListener* l), (override));
+	MOCK_METHOD(void, setVideoListener, (VideoListener* l), (override));
+	MOCK_METHOD(void, setUserListener, (UserListener* l), (override));
 };

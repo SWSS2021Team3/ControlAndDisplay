@@ -92,8 +92,8 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>opencv_world451d.lib;..\desktop_app01\x64\Debug\*.obj;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%OPENCV_DIR%\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libcrypto.lib;libssl.lib;opencv_world451d.lib;..\desktop_app01\x64\Debug\attendanceChecker.obj;..\desktop_app01\x64\Debug\attendanceController.obj;..\desktop_app01\x64\Debug\attendanceView.obj;..\desktop_app01\x64\Debug\commManager.obj;..\desktop_app01\x64\Debug\NetworkTCP.obj;..\desktop_app01\x64\Debug\SecurityManagerAcs.obj;..\desktop_app01\x64\Debug\studentController.obj;..\desktop_app01\x64\Debug\studentView.obj;..\desktop_app01\x64\Debug\TcpSendRecvCmd.obj;..\desktop_app01\x64\Debug\TcpSendRecvJpeg.obj;..\desktop_app01\x64\Debug\userAuthManager.obj;..\desktop_app01\x64\Debug\userAuthView.obj;..\desktop_app01\x64\Debug\view.obj;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%OPENCV_DIR%\lib;%OPENSSL_DIR%\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -121,9 +121,6 @@
     <ClCompile Include="userAuthView.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="serialize.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="attendanceController.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>

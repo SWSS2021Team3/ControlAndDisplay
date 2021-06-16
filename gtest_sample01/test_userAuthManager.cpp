@@ -15,7 +15,7 @@ TEST(Login, login_success_with_correct_password) {
 
 	MockCommManager commManager;
 	EXPECT_CALL(commManager, connect(false)).WillOnce(Return(true));
-	EXPECT_CALL(commManager, login(username, correctPassword)).WillOnce(Return(correctUser));
+	EXPECT_CALL(commManager, login(username, correctPassword)).WillOnce(Return(false));
 
 	UserAuthManager uam(&commManager);
 
@@ -31,7 +31,7 @@ TEST(Login, login_failed_with_incorrect_password) {
 
 	MockCommManager commManager;
 	EXPECT_CALL(commManager, connect(false)).WillOnce(Return(true));
-	EXPECT_CALL(commManager, login(username, incorrectPassword)).WillOnce(Return(notUser));
+	EXPECT_CALL(commManager, login(username, incorrectPassword)).WillOnce(Return(false));
 
 	UserAuthManager uam(&commManager);
 

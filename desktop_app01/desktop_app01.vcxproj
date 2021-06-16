@@ -176,7 +176,6 @@
     <ClCompile Include="attendanceView.cpp" />
     <ClCompile Include="commManager.cpp" />
     <ClCompile Include="SecurityManagerAcs.cpp" />
-    <ClCompile Include="serialize.cpp" />
     <ClCompile Include="studentController.cpp" />
     <ClCompile Include="studentView.cpp" />
     <ClCompile Include="TcpSendRecvCmd.cpp" />

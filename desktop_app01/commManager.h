@@ -12,11 +12,6 @@ using namespace std;
 class SecurityManagerAcs;
 
 class CommManagerInterface {
-protected:
-	FaceImageListener* faceImageListener = nullptr;
-	VideoListener* videoListener = nullptr;
-	UserListener* userListener = nullptr;
-
 public:
 	virtual bool connect(const bool secureMode) = 0;
 	virtual bool login(const string& username, const string& password) = 0;
@@ -27,22 +22,17 @@ public:
 	virtual bool requestVideoEnd() = 0;
 	virtual bool requestVideoSource(std::string videoname) = 0;
 
-	void setFaceImageListener(FaceImageListener* l)
-	{
-		faceImageListener = l;
-	}
-	void setVideoListener(VideoListener* l)
-	{
-		videoListener = l;
-	}
-	void setUserListener(UserListener* l)
-	{
-		userListener = l;
-	}
+	virtual void setFaceImageListener(FaceImageListener* l) = 0;
+	virtual void setVideoListener(VideoListener* l) = 0;
+	virtual void setUserListener(UserListener* l) = 0;
 };
 
 class CommManager : public CommManagerInterface {
 private:
+	FaceImageListener* faceImageListener = nullptr;
+	VideoListener* videoListener = nullptr;
+	UserListener* userListener = nullptr;
+
 	TTcpConnectedPort* connection = nullptr;
 	HANDLE hThread = 0;
 	DWORD tid;
@@ -69,5 +59,18 @@ public:
 	bool requestVideoStart();
 	bool requestVideoEnd();
 	bool requestVideoSource(std::string videoname);
+
+	void setFaceImageListener(FaceImageListener* l)
+	{
+		faceImageListener = l;
+	}
+	void setVideoListener(VideoListener* l)
+	{
+		videoListener = l;
+	}
+	void setUserListener(UserListener* l)
+	{
+		userListener = l;
+	}
 };
 
