@@ -51,7 +51,12 @@ bool TcpRecvImageAsJpeg(TTcpConnectedPort * TcpConnectedPort,cv::Mat *Image)
 
   if((ReadDataTcp(TcpConnectedPort,buff,imagesize))==imagesize)
    {
-     cv::imdecode(cv::Mat(imagesize,1,CV_8UC1,buff), cv::IMREAD_COLOR, Image );
+      try {
+          cv::imdecode(cv::Mat(imagesize, 1, CV_8UC1, buff), cv::IMREAD_COLOR, Image);
+      }
+      catch (cv::Exception& e) {
+          ;
+      }
      delete [] buff;
      if (!(*Image).empty()) return true;
      else return false;
