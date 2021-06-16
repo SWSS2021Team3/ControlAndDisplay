@@ -95,6 +95,10 @@ void AttendanceView::updateUserAttendance(std::string username)
 	SetDlgItemText(hWnd, IDC_ATTENDANCE_LIST_STATIC, text);
 }
 
+void AttendanceView::clearUserAttendance()
+{
+	SetDlgItemText(hWnd, IDC_ATTENDANCE_LIST_STATIC, L"Attendance List");
+}
 
 INT_PTR AttendanceView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -120,6 +124,10 @@ INT_PTR AttendanceView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		case IDC_VIDEO_END_BUTTON:
 			acs->endVideo();
+			break;
+		case IDC_VIDEO_CLEAR_BUTTON:
+			acs->clearAttendanceList();
+			clearUserAttendance();
 			break;
 		case IDCANCEL:
 			EndDialog(hWnd, wParam);

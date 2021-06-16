@@ -34,4 +34,5 @@ public:
 
 	void startVideo();
 	void endVideo();
+	void clearAttendanceList();
 };

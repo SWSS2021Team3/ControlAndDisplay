@@ -17,6 +17,11 @@ void AttendanceController::videoEnd()
 	commManager->requestVideoEnd();
 }
 
+void AttendanceController::clearList()
+{
+	attendanceSet.clear();
+}
+
 void AttendanceController::onVideoFrameReceive(cv::Mat& image)
 {
 	if (viewHandler != nullptr)
@@ -25,6 +30,9 @@ void AttendanceController::onVideoFrameReceive(cv::Mat& image)
 
 void AttendanceController::onUserAttend(std::string username)
 {
+	if (attendanceSet.find(username) != attendanceSet.end()) return;
+
+	attendanceSet.insert(username);
 	if (viewHandler != nullptr)
 		viewHandler->onAttendanceUpdate(username);
 }
