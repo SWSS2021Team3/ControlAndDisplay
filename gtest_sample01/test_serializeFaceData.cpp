@@ -158,7 +158,7 @@ bool saveFaceDB(std::vector<FaceData>& faceDB)
 		printf("%02x ", buf[i]);
 	printf("\n");
 
-	ret = SMwriteFaceDB((unsigned char*)&buf, dataSize, &writeLen);
+	ret = SMwriteFaceDB((unsigned char*)buf, dataSize, &writeLen);
 	cout << "ret = " << ret << endl;
 	cout << "writeLen = " << writeLen << endl;
 
