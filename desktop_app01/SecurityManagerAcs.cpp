@@ -11,8 +11,6 @@
 
 SecurityManagerAcs::SecurityManagerAcs() : secureNetworkContext(nullptr)
 {
-    keymap["client.key"] = std::string();
-    keymap["client.crt"] = std::string();
 }
 
 void* SecurityManagerAcs::getSecureNeworkContext()
@@ -20,44 +18,47 @@ void* SecurityManagerAcs::getSecureNeworkContext()
     SSL_CTX* ctx;
     SSL* ssl;
     int res = 0;
-#ifndef _DEBUG
-    if (keymap["client.crt"].size() == 0 || keymap["client.key"].size() == 0) {
+
+    if (keymap.find("client.crt") == keymap.end() 
+        || keymap.find("client.key") == keymap.end()
+        || keymap.find("rootca.crt") == keymap.end()) {
         return nullptr;
     }
-#endif
 
     const char* cipher_list = "TLS_AES_128_GCM_SHA256";
     const SSL_METHOD* meth = TLS_client_method();
     ctx = SSL_CTX_new(meth);
-    res = SSL_CTX_set_ciphersuites(ctx, cipher_list); //work for TLS 1.3
-    //res = SSL_CTX_set_cipher_list(ctx, cipher_list); //only work for TLS 1.2
-    res = SSL_CTX_set_min_proto_version(ctx, TLS1_3_VERSION);
-#ifdef _DEBUG
-    res = SSL_CTX_use_certificate_file(ctx, "client.crt", SSL_FILETYPE_PEM);
-    res = SSL_CTX_use_PrivateKey_file(ctx, "client.key", SSL_FILETYPE_PEM);
-#else
-    std::string& client_crt = keymap["client.crt"];
-    BIO * bio_x509 = BIO_new_mem_buf(client_crt.c_str(), (int)client_crt.size());
-    X509* x509 = PEM_read_bio_X509(bio_x509, NULL, NULL, NULL);
-    res = SSL_CTX_use_certificate(ctx, x509);
-    X509_free(x509);
-    BIO_free(bio_x509);
-
-    std::string& client_key = keymap["client.key"];
-    BIO* bio_pkey = BIO_new_mem_buf(client_key.c_str(), (int)client_key.size());
-    EVP_PKEY* pkey = PEM_read_bio_PrivateKey(bio_pkey, NULL, NULL, NULL);
-    res = SSL_CTX_use_PrivateKey(ctx, pkey);
-    EVP_PKEY_free(pkey);
-    BIO_free(bio_pkey);
-
-#endif
-    res = SSL_CTX_load_verify_locations(ctx, "rootca.crt", NULL);
-    res = SSL_CTX_check_private_key(ctx);
+    if (ctx == NULL) {
+        return nullptr;
+    }
+    if (1 != SSL_CTX_set_ciphersuites(ctx, cipher_list)) { //SSL_CTX_set_cipher_list for TLS 1.2
+        goto error_exit;
+    }
+    if (1 != SSL_CTX_set_min_proto_version(ctx, TLS1_3_VERSION)) {
+        goto error_exit;
+    }
+    if (1 != SSL_CTX_use_certificate_file(ctx, keymap["client.crt"].c_str(), SSL_FILETYPE_PEM)) {
+        goto error_exit;
+    }
+    if (1 != SSL_CTX_use_PrivateKey_file(ctx, keymap["client.key"].c_str(), SSL_FILETYPE_PEM)) {
+        goto error_exit;
+    }
+    if (1 != SSL_CTX_load_verify_locations(ctx, keymap["rootca.crt"].c_str(), NULL)) {
+        goto error_exit;
+    }
+    if (1 != SSL_CTX_check_private_key(ctx)) {
+        goto error_exit;
+    }
     SSL_CTX_set_verify(ctx, SSL_VERIFY_PEER, NULL); // mtls, fail if no cert of client
     ssl = SSL_new(ctx);
-
+    if (ssl == NULL) {
+        goto error_exit;
+    }
     secureNetworkContext = reinterpret_cast<void*>(ctx);
     return (void*) ssl;
+error_exit:
+    SSL_CTX_free(ctx);
+    return nullptr;
 }
 
 int SecurityManagerAcs::freeSecureNetworkContext(void* p)
@@ -69,13 +70,17 @@ int SecurityManagerAcs::freeSecureNetworkContext(void* p)
     return 0;
 }
 
-void SecurityManagerAcs::setNetworkSd(void* p, int sd)
+int SecurityManagerAcs::setNetworkSd(void* p, int sd)
 {
     if (p != nullptr) {
         SSL* ssl = reinterpret_cast<SSL*>(p);
         SSL_set_fd(ssl, sd);
-        SSL_connect(ssl);
+        int ret = SSL_connect(ssl);
+        if (ret <= 0) {
+            return -1;
+        }
     }
+    return 1;
 }
 
 std::string readFile(const std::string& path)
@@ -110,29 +115,34 @@ bool SecurityManagerAcs::readKey()
             _stprintf_s(szRootpath, _T("%c:\\"), chDriveLabel);
             if (DRIVE_REMOVABLE == GetDriveType(szRootpath)) {
                 std::wstring wstr;
-                std::string out;
+                std::string clientkeypath, clientcrtpath, rootcacrtpath;
                 TCHAR szPath[MAX_PATH];
 
                 _stprintf_s(szPath, _T("%s\\cert\\client.key"), szRootpath);
                 wstr.assign((wchar_t*)szPath);
                 for (wchar_t ch : wstr) {
-                    out.push_back(static_cast<char>(ch));
+                    clientkeypath.push_back(static_cast<char>(ch));
                 }
-                std::string clientkey = readFile(out);
-                out.clear();
+                std::string clientkey = readFile(clientkeypath);
 
                 _stprintf_s(szPath, _T("%s\\cert\\client.crt"), szRootpath);
                 wstr.assign(szPath);
                 for (wchar_t ch : wstr) {
-                    out.push_back(static_cast<char>(ch));
+                    clientcrtpath.push_back(static_cast<char>(ch));
                 }
-                std::string clientcrt = readFile(out);
-                out.clear();
-                bool a = false, b = false;
+                std::string clientcrt = readFile(clientcrtpath);
 
-                if (clientkey.size() != 0) { keymap["client.key"] = clientkey; a = true; }
-                if (clientcrt.size() != 0) { keymap["client.crt"] = clientcrt; b = true; }
-                if (a && b) {
+                _stprintf_s(szPath, _T("%s\\cert\\rootca.crt"), szRootpath);
+                wstr.assign(szPath);
+                for (wchar_t ch : wstr) {
+                    rootcacrtpath.push_back(static_cast<char>(ch));
+                }
+                std::string rootcacrt = readFile(rootcacrtpath);
+
+                if (clientkey.size() != 0 && clientcrt.size() && rootcacrt.size()) {
+                    keymap["client.key"] = clientkeypath;
+                    keymap["client.crt"] = clientcrtpath;
+                    keymap["rootca.crt"] = rootcacrtpath;
                     ret = true;
                     break;
                 }
@@ -146,36 +156,53 @@ bool SecurityManagerAcs::readKey()
 }
 
 int cmsVerify(std::string& sign, std::string& content, std::string& rootca) {
-    BIO* bio_sign;
-    CMS_ContentInfo* cms;
-    BIO* bio_content;
-    BIO* bio_ca;
-    X509* x509_ca;
+    CMS_ContentInfo* cms = NULL;
+    BIO* bio_content = NULL;
+    BIO* bio_ca = NULL;
+    X509* x509_ca = NULL;
+    X509_STORE* store = NULL;
     int ret = -1;
-
+    int flags = CMS_BINARY;
     auto cms_der_in = reinterpret_cast<const unsigned char*>(sign.c_str());
-    long cms_der_length = sign.size();
+    long cms_der_length = (long)sign.size();
 
     cms = d2i_CMS_ContentInfo(NULL, &cms_der_in, cms_der_length);
-
-    bio_content = BIO_new_mem_buf(content.c_str(), content.size());
-    bio_ca = BIO_new_mem_buf(rootca.c_str(), rootca.size());
+    if (cms == NULL) {
+        ret -2;
+        goto error_exit;
+    }
+    bio_content = BIO_new_mem_buf(content.c_str(), (int)content.size());
+    if (bio_content == NULL) {
+        ret = -3;
+        goto error_exit;
+    }
+    bio_ca = BIO_new_mem_buf(rootca.c_str(), (int)rootca.size());
+    if (bio_ca == NULL) {
+        ret = -4;
+        goto error_exit;
+    }
     x509_ca = PEM_read_bio_X509(bio_ca, NULL, NULL, NULL);
-
-    X509_STORE* store = X509_STORE_new();
+    if (x509_ca == NULL) {
+        ret = -5;
+        goto error_exit;
+    }
+    store = X509_STORE_new();
+    if (store == NULL) {
+        ret = -6;
+        goto error_exit;
+    }
     X509_STORE_add_cert(store, x509_ca);
 
-    int flags = CMS_BINARY;
     if (CMS_verify(cms, NULL, store, bio_content, NULL, flags) == 1) {
         ret = 1;
     }
 
-    X509_STORE_free(store);
-    X509_free(x509_ca);
-    BIO_free(bio_ca);
-    BIO_free(bio_content);
-    CMS_ContentInfo_free(cms);
-    //BIO_free(bio_sign);
+error_exit:
+    if (store != NULL) X509_STORE_free(store);
+    if (x509_ca != NULL) X509_free(x509_ca);
+    if (bio_ca != NULL) BIO_free(bio_ca);
+    if (bio_content != NULL) BIO_free(bio_content);
+    if (cms != NULL) CMS_ContentInfo_free(cms);
 
     return ret;
 }
@@ -184,7 +211,7 @@ bool SecurityManagerAcs::readConfig(std::string& ip, std::string& port, std::str
 {
     std::string sign = readFile("clientconf.sign");
     std::string content = readFile("clientconf.bin");
-    std::string rootca = readFile("rootca.crt");
+    std::string rootca = readFile(keymap["rootca.crt"]);
 
     if (1 != cmsVerify(sign, content, rootca)) {
         return false;

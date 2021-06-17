@@ -22,7 +22,7 @@ private:
 
 public:
 	UserAuthManager(CommManagerInterface* comm);
-	bool login(const string& username, const string& password, const bool secureMode);
+	int login(const string& username, const string& password, const bool secureMode);
 	void logout();
 	User getCurrentUser();
 

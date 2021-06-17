@@ -3,7 +3,7 @@
 #include "Payload.h"
 #include "SecurityManagerAcs.h"
 
-CommManager::CommManager()
+CommManager::CommManager() : tid(0)
 {
 	securityManager = new SecurityManagerAcs;
 }
@@ -101,19 +101,25 @@ DWORD CommManager::receiver()
 
 	return 0;
 }
-bool CommManager::connect(const bool secureMode)
+int CommManager::connect(const bool secureMode)
 {
 	std::string ip = "192.168.0.106";
 	std::string port = "5000";
 	std::string secureport = "5001";
-	securityManager->readKey(); //fixme: abort if return false
-	securityManager->readConfig(ip, port, secureport);
+	int ret;
+	ret = securityManager->readKey(); //fixme: abort if return
+	if (!securityManager->readKey()) {
+		return -1024;
+	}
+	if (!securityManager->readConfig(ip, port, secureport)) {
+		return -1025;
+	}
 
 	if (secureMode) {
-		return connect(ip, secureport, secureMode);
+		return (int)connect(ip, secureport, secureMode);
 	}
 	else {
-		return connect(ip, port, secureMode);
+		return (int)connect(ip, port, secureMode);
 	}
 }
 
@@ -133,7 +139,8 @@ bool CommManager::connect(const string& hostname, string portname, const bool se
 	if (secureMode) {
 		connection->secureMode = true;
 		connection->ssl = securityManager->getSecureNeworkContext();
-		securityManager->setNetworkSd(connection->ssl, connection->ConnectedFd);
+		securityManager->setNetworkSd(connection->ssl, (int)connection->ConnectedFd);
+		//fixme if return -1, then alert messagebox
 	}
 	if (!hThread)
 		hThread = CreateThread(NULL, 0, CommManager::StaticReceiver, (LPVOID)this, 0, &tid);
@@ -185,9 +192,9 @@ bool CommManager::send(const int cmd, const int v1, const int v2, const std::str
 	return ret >= 0;
 }
 
-bool CommManager::login(const string& username, const string& password)
+int CommManager::login(const string& username, const string& password)
 {
-	return send(SIGNAL_FM_REQ_LOGIN, username, password);
+	return (int)send(SIGNAL_FM_REQ_LOGIN, username, password);
 }
 
 bool CommManager::requestFaces(const int uid)

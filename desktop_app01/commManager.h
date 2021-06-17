@@ -13,8 +13,8 @@ class SecurityManagerAcs;
 
 class CommManagerInterface {
 public:
-	virtual bool connect(const bool secureMode) = 0;
-	virtual bool login(const string& username, const string& password) = 0;
+	virtual int connect(const bool secureMode) = 0;
+	virtual int login(const string& username, const string& password) = 0;
 	virtual bool requestFaces(const int uid) = 0;
 	virtual bool requestAddFace(const int uid, const int numberOfImages) = 0;
 	virtual bool requestDelFace(const int uid, const int fid) = 0;
@@ -50,9 +50,9 @@ public:
 	CommManager();
 	~CommManager();
 	DWORD receiver();
-	bool connect(const bool secureMode);
+	int connect(const bool secureMode);
 	bool connect(const string& hostname, string portname, const bool secureMode);
-	bool login(const string& username, const string& password);
+	int login(const string& username, const string& password);
 	bool requestFaces(const int uid);
 	bool requestAddFace(const int uid, const int numberOfImages);
 	bool requestDelFace(const int uid, const int fid);

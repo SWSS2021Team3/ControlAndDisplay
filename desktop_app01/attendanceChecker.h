@@ -23,7 +23,7 @@ public:
 	void setStudentViewHandler(StudentViewHandler* vh);
 	void setUserAuthViewHandler(UserAuthViewHandler* vh);
 	void setAttendanceViewHandler(AttendanceViewHandler* vh);
-	bool login(const string& username, const string& password, const bool secureMode);
+	int login(const string& username, const string& password, const bool secureMode);
 	bool isLogin();
 	bool recvVideo();
 	cv::Mat& getVideoFrame();

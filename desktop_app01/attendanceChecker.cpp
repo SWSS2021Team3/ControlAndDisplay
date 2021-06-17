@@ -15,7 +15,7 @@ AttendanceChecker::~AttendanceChecker()
 	delete studentController;
 }
 
-bool AttendanceChecker::login(const string& username, const string& password, const bool secureMode)
+int AttendanceChecker::login(const string& username, const string& password, const bool secureMode)
 {
 	return userAuthManager->login(username, password, secureMode);
 }

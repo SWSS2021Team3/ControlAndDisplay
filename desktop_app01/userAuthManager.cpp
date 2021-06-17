@@ -5,7 +5,7 @@ UserAuthManager::UserAuthManager(CommManagerInterface* comm) : commManager(comm)
 	comm->setUserListener(this);
 }
 
-bool UserAuthManager::login(const string& username, const string& password, const bool secureMode)
+int UserAuthManager::login(const string& username, const string& password, const bool secureMode)
 {
 	if (commManager == nullptr)
 	{
@@ -13,7 +13,11 @@ bool UserAuthManager::login(const string& username, const string& password, cons
 			viewHandler->onConnectFailed();
 		return false;
 	}
-	if (!commManager->connect(secureMode))
+	int ret = commManager->connect(secureMode);
+	if (ret < 0) {
+		return ret;
+	} 
+	else if (ret == 0)
 	{
 		if (viewHandler)
 			viewHandler->onConnectFailed();
