@@ -150,7 +150,7 @@ INT_PTR AttendanceView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 			acs->switchToLive();
 			break;
 		case IDC_RECORDED_TEMP_BUTTON:
-			acs->switchToRecord("friends640x480.mp4");
+			acs->switchToRecord("record.avi");
 			break;
 		case IDCANCEL:
 			EndDialog(hWnd, wParam);
