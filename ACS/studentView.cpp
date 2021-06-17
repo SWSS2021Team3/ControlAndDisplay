@@ -13,6 +13,7 @@ INT_PTR StudentView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_INITDIALOG:
 		break;
 	case WM_CLOSE:
+		acs->logout();
 		EndDialog(hWnd, wParam);
 		break;
 	case WM_DESTROY:

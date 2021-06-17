@@ -124,6 +124,7 @@ INT_PTR AttendanceView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_INITDIALOG:
 		break;
 	case WM_CLOSE:
+		acs->logout();
 		EndDialog(hWnd, wParam);
 		break;
 	case WM_DESTROY:
@@ -152,8 +153,7 @@ INT_PTR AttendanceView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 		case IDC_RECORDED_TEMP_BUTTON:
 			acs->switchToRecord("record.avi");
 			break;
-		case IDCANCEL:
-			EndDialog(hWnd, wParam);
+		default:
 			break;
 		}
 		break;
