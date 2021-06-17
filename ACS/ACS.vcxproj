@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{bd53a2e9-86c4-4f97-acf2-4e238a45b8c8}</ProjectGuid>
-    <RootNamespace>desktopapp01</RootNamespace>
+    <ProjectGuid>{aa108594-a152-408a-8538-6c960d5f3993}</ProjectGuid>
+    <RootNamespace>ACS</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -124,6 +124,10 @@
       <AdditionalLibraryDirectories>%OPENSSL_DIR%\lib;%OPENCV_DIR%\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libcrypto.lib;libssl.lib;opencv_world451d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y $(ProjectDir)clientconf.bin $(OutDir)
+xcopy /y $(ProjectDir)clientconf.sign $(OutDir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -143,17 +147,23 @@
       <AdditionalDependencies>libcrypto.lib;libssl.lib;opencv_world451.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%OPENSSL_DIR%\lib;%OPENCV_DIR%\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y $(ProjectDir)clientconf.bin $(OutDir)
+xcopy /y $(ProjectDir)clientconf.sign $(OutDir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ACS.h" />
     <ClInclude Include="attendanceChecker.h" />
     <ClInclude Include="attendanceController.h" />
     <ClInclude Include="attendanceView.h" />
     <ClInclude Include="commManager.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="targetver.h" />
     <ClInclude Include="listener.h" />
     <ClInclude Include="NetworkTCP.h" />
     <ClInclude Include="Payload.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="SecurityManagerAcs.h" />
     <ClInclude Include="serialize.h" />
     <ClInclude Include="studentController.h" />
@@ -168,9 +178,7 @@
     <ClInclude Include="viewHandler.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="desktop_app01.rc" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="ACS.cpp" />
     <ClCompile Include="attendanceChecker.cpp" />
     <ClCompile Include="attendanceController.cpp" />
     <ClCompile Include="attendanceView.cpp" />
@@ -180,11 +188,17 @@
     <ClCompile Include="studentView.cpp" />
     <ClCompile Include="TcpSendRecvCmd.cpp" />
     <ClCompile Include="userAuthManager.cpp" />
-    <ClCompile Include="main.cpp" />
     <ClCompile Include="NetworkTCP.cpp" />
     <ClCompile Include="TcpSendRecvJpeg.cpp" />
     <ClCompile Include="userAuthView.cpp" />
     <ClCompile Include="view.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ACS.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="ACS.ico" />
+    <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

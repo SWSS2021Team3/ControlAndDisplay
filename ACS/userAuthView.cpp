@@ -23,7 +23,8 @@ INT_PTR UserAuthView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 		SendDlgItemMessage(hWnd, IDC_CMODE_RADIO2, BM_SETCHECK, 0, 0);
 		break;
 	case WM_CLOSE:
-		break;
+		EndDialog(hWnd, wParam);
+		return TRUE;
 	case WM_DESTROY:
 		break;
 	case WM_COMMAND:
@@ -48,27 +49,7 @@ INT_PTR UserAuthView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 			}
 			return TRUE;
 		}
-		//// manual radio button group
-		//case IDC_CMODE_RADIO1:
-		//	if (HIWORD(wParam) == BN_CLICKED)
-		//	{
-		//		if (SendDlgItemMessage(hWnd, IDC_CMODE_RADIO1, BM_GETCHECK, 0, 0) == 0)
-		//		{
-		//			SendDlgItemMessage(hWnd, IDC_CMODE_RADIO1, BM_SETCHECK, 1, 0);
-		//			SendDlgItemMessage(hWnd, IDC_CMODE_RADIO2, BM_SETCHECK, 0, 0);
-		//		}
-		//	}
-		//	return TRUE;
-		//case IDC_CMODE_RADIO2:
-		//	if (HIWORD(wParam) == BN_CLICKED)
-		//	{
-		//		if (SendDlgItemMessage(hWnd, IDC_CMODE_RADIO2, BM_GETCHECK, 0, 0) == 0)
-		//		{
-		//			SendDlgItemMessage(hWnd, IDC_CMODE_RADIO1, BM_SETCHECK, 0, 0);
-		//			SendDlgItemMessage(hWnd, IDC_CMODE_RADIO2, BM_SETCHECK, 1, 0);
-		//		}
-		//	}
-			//	return TRUE;
+
 		default:
 			break;
 		}
@@ -79,16 +60,17 @@ INT_PTR UserAuthView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 	return FALSE;
 }
 
-UserAuthView::UserAuthView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecker* ac) : View(_hWndParent), acs(ac)
+UserAuthView::UserAuthView(HINSTANCE _hInstance, HWND _hWndParent, AttendanceChecker* ac) : View(_hInstance, _hWndParent), acs(ac)
 {
-	hWnd = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_USER_AUTH_FORMVIEW), _hWndParent, (DLGPROC)StaticDlgProc, (LPARAM)this);
 	acs->setUserAuthViewHandler(this);
 }
 
-void UserAuthView::start()
+ViewState UserAuthView::start()
 {
-	// initialize
-	show();
+	nextState = ViewState::END;
+	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_USER_AUTH_DIALOG), hWndParent, (DLGPROC)StaticDlgProc, (LPARAM)this);
+
+	return nextState;
 }
 
 void UserAuthView::onConnectFailed()
@@ -107,8 +89,6 @@ void UserAuthView::onLoginSuccess(User user)
 	wsprintf(msg, L"Welcome");
 	MessageBox(hWnd, msg, L"", MB_OK);
 
-	SetDlgItemText(hWnd, IDC_USERNAME_EDIT, L"");
-	SetDlgItemText(hWnd, IDC_PASSWORD_EDIT, L"");
-
-	SendMessage(hWndParent, WM_COMMAND, user.isAdmin ? IDD_ATTENDANCE_FORMVIEW:IDD_STUDENT_FORMVIEW, NULL);
+	nextState = user.isAdmin ? ViewState::ATTENDANCE:ViewState::STUDENT;
+	EndDialog(hWnd, MB_OK);
 }

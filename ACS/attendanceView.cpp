@@ -16,6 +16,8 @@ BOOL AttendanceView::eventHandler(HWND hWnd, UINT message, DWORD dwParam)
 
 void AttendanceView::renderVideo(cv::Mat& frame)
 {
+	if (m_pBitmapInfo == nullptr) return;
+
 	int bpp = 8 * (int)frame.elemSize();
 
 	int padding = 0;
@@ -120,21 +122,19 @@ INT_PTR AttendanceView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case WM_INITDIALOG:
-		if (m_pBitmapInfo == nullptr)
-			m_pBitmapInfo = (BITMAPINFO*)malloc(sizeof(BITMAPINFO) + 256 * sizeof(RGBQUAD));
 		break;
 	case WM_CLOSE:
+		EndDialog(hWnd, wParam);
 		break;
 	case WM_DESTROY:
-		KillTimer(hWnd, (UINT_PTR) this);
 		break;
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
 		{
 		case IDC_LOGOUT_BUTTON2:
 			acs->logout();
-			SendMessage(hWndParent, WM_COMMAND, IDD_USER_AUTH_FORMVIEW, NULL);
-			//SendMessage(hWndParent, WM_COMMAND, IDD_STUDENT_FORMVIEW, NULL); // move to studentView
+			nextState = ViewState::USERAUTH;
+			EndDialog(hWnd, NULL);
 			break;
 		case IDC_VIDEO_START_BUTTON:
 			acs->startVideo();
@@ -163,17 +163,30 @@ INT_PTR AttendanceView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 	return FALSE;
 }
 
-AttendanceView::AttendanceView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecker *ac) : View(_hWndParent), acs(ac)
+AttendanceView::AttendanceView(HINSTANCE _hInstance, HWND _hWndParent, AttendanceChecker *ac) : View(_hInstance, _hWndParent), acs(ac)
 {
-	hWnd = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_ATTENDANCE_FORMVIEW), _hWndParent, (DLGPROC)StaticDlgProc, reinterpret_cast<LPARAM>(this));
 	acs->setAttendanceViewHandler(this);
+	m_pBitmapInfo = (BITMAPINFO*)malloc(sizeof(BITMAPINFO) + 256 * sizeof(RGBQUAD));
 }
 
-void AttendanceView::start()
+AttendanceView::~AttendanceView()
 {
-	acs->fetchStudentList();
+	if (m_pBitmapInfo != nullptr)
+	{
+		free(m_pBitmapInfo);
+		m_pBitmapInfo = nullptr;
+	}
+}
+
+ViewState AttendanceView::start()
+{
 	// initialize
-	show();
+	acs->fetchStudentList();
+
+	nextState = ViewState::END;
+	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_ATTENDANCE_DIALOG), hWndParent, (DLGPROC)StaticDlgProc, (LPARAM)this);
+
+	return nextState;
 }
 
 void AttendanceView::onVideoUpdate(cv::Mat& frame)

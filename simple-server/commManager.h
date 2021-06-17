@@ -7,10 +7,10 @@
 #include <pthread.h>
 #include <queue>
 #if _WIN32
-#include "../desktop_app01/NetworkTCP.h"
-#include "../desktop_app01/TcpSendRecvJpeg.h"
-#include "../desktop_app01/TcpSendRecvCmd.h"
-#include "../desktop_app01/MSG_DB.h"
+#include "../ACS/NetworkTCP.h"
+#include "../ACS/TcpSendRecvJpeg.h"
+#include "../ACS/TcpSendRecvCmd.h"
+#include "../ACS/MSG_DB.h"
 #else
 #include "NetworkTCP.h"
 #include "TcpSendRecvJpeg.h"

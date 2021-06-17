@@ -15,7 +15,7 @@ private:
 	BOOL eventHandler(HWND hWnd, UINT message, DWORD dwParam);
 public:
 	UserAuthView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecker* ac);
-	void start();
+	ViewState start();
 
 	void onConnectFailed();
 	void onLoginFailed();

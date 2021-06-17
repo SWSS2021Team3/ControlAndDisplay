@@ -11,13 +11,11 @@ INT_PTR StudentView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 	switch (message)
 	{
 	case WM_INITDIALOG:
-		if (m_pBitmapInfo == nullptr)
-			m_pBitmapInfo = (BITMAPINFO*)malloc(sizeof(BITMAPINFO) + 256 * sizeof(RGBQUAD));
 		break;
 	case WM_CLOSE:
+		EndDialog(hWnd, wParam);
 		break;
 	case WM_DESTROY:
-		KillTimer(hWnd, 1000);
 		break;
 	case WM_COMMAND:
 		switch (LOWORD(wParam))
@@ -39,29 +37,43 @@ INT_PTR StudentView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 	return FALSE;
 }
 
-StudentView::StudentView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecker *ac) : View(_hWndParent), acs(ac)
+StudentView::StudentView(HINSTANCE _hInstance, HWND _hWndParent, AttendanceChecker *ac) : View(_hInstance, _hWndParent), acs(ac)
 {
-	hWnd = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_STUDENT_FORMVIEW), _hWndParent, (DLGPROC)StaticDlgProc, (LPARAM) this);
+	m_pBitmapInfo = (BITMAPINFO*)malloc(sizeof(BITMAPINFO) + 256 * sizeof(RGBQUAD));
 	acs->setStudentViewHandler(this);
 }
+StudentView::~StudentView()
+{
+	if (m_pBitmapInfo != nullptr)
+	{
+		free(m_pBitmapInfo);
+		m_pBitmapInfo = nullptr;
+	}
+}
 
-void StudentView::start()
+ViewState StudentView::start()
 {
 	// initialize
 	acs->getFaces().clear();
 	acs->fetchFaceImages();
 
-	show();
+	nextState = ViewState::END;
+	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_STUDENT_DIALOG), hWndParent, (DLGPROC)StaticDlgProc, (LPARAM)this);
+
+	return nextState;
 }
 
 void StudentView::stop()
 {
 	acs->logout();
-	SendMessage(hWndParent, WM_COMMAND, IDD_USER_AUTH_FORMVIEW, NULL);
+	nextState = ViewState::USERAUTH;
+	EndDialog(hWnd, NULL);
 }
 
 void StudentView::showFaceImages()
 {
+	if (m_pBitmapInfo == nullptr) return;
+
 	vector<cv::Mat> & frames = acs->getFaces();
 
 	cv::Mat empty_frame = cv::Mat::zeros(160, 160, CV_8UC1);
