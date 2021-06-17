@@ -28,10 +28,28 @@ void AttendanceController::clearList()
 	attendanceSet.clear();
 }
 
+void AttendanceController::fetchStudentList()
+{
+	if (commManager == nullptr) return;
+	commManager->requestStudentList();
+}
+
 void AttendanceController::onVideoFrameReceive(cv::Mat& image)
 {
 	if (viewHandler != nullptr)
 		viewHandler->onVideoUpdate(image);
+}
+
+void AttendanceController::onStudentListReceive(std::vector<std::string>& ss)
+{
+	studentList = ss;
+
+	std::vector<std::string>::iterator it = find(studentList.begin(), studentList.end(), "admin");
+	if (it != studentList.end())
+		studentList.erase(it);
+
+	if (viewHandler != nullptr)
+		viewHandler->onStudentListUpdate(studentList);
 }
 
 void AttendanceController::onUserAttend(std::string username)

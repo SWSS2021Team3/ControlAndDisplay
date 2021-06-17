@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// ÇÑ±¹¾î(´ëÇÑ¹Î±¹) resources
+// ï¿½Ñ±ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½Ñ¹Î±ï¿½) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_KOR)
 LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT
@@ -60,9 +60,10 @@ BEGIN
     PUSHBUTTON      "Start",IDC_VIDEO_START_BUTTON,31,337,50,14
     PUSHBUTTON      "End",IDC_VIDEO_END_BUTTON,96,337,50,14
     PUSHBUTTON      "Clear",IDC_VIDEO_CLEAR_BUTTON,156,337,50,14
-    LTEXT           "Attendance List",IDC_ATTENDANCE_LIST_STATIC,41,106,173,216
+    LTEXT           "Attendance List",IDC_ATTENDANCE_LIST_STATIC,160,106,83,216
     PUSHBUTTON      "Live",IDC_TEMP_LIVE_BUTTON,455,55,50,14
     PUSHBUTTON      "Recorded",IDC_RECORDED_TEMP_BUTTON,514,54,50,14
+    LTEXT           "Student List",IDC_STUDENT_LIST_STATIC,40,106,83,216
 END
 
 IDD_STUDENT_FORMVIEW DIALOGEX 0, 0, 600, 400
@@ -170,7 +171,7 @@ BEGIN
     0
 END
 
-#endif    // ÇÑ±¹¾î(´ëÇÑ¹Î±¹) resources
+#endif    // ï¿½Ñ±ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½Ñ¹Î±ï¿½) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

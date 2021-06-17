@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++¿¡¼­ »ý¼ºÇÑ Æ÷ÇÔ ÆÄÀÏÀÔ´Ï´Ù.
-// desktop_app01.rc¿¡¼­ »ç¿ëµÇ°í ÀÖ½À´Ï´Ù.
+// Microsoft Visual C++ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.
+// desktop_app01.rcï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ç°ï¿½ ï¿½Ö½ï¿½ï¿½Ï´ï¿½.
 //
 #define IDD_ATTENDANCE_FORMVIEW         101
 #define IDD_STUDENT_FORMVIEW            102
@@ -34,6 +34,7 @@
 #define IDC_TEMP_LIVE_BUTTON            1026
 #define IDC_RECORDED_TEMP_BUTTON        1027
 #define IDC_DELETE_FACE_BUTTON          1028
+#define IDC_STUDENT_LIST_STATIC         1029
 
 // Next default values for new objects
 // 
@@ -41,7 +42,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        107
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1029
+#define _APS_NEXT_CONTROL_VALUE         1030
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

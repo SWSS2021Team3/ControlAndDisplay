@@ -22,6 +22,7 @@ public:
 	virtual bool requestVideoStart() = 0;
 	virtual bool requestVideoEnd() = 0;
 	virtual bool requestVideoSource(std::string videoname) = 0;
+	virtual bool requestStudentList() = 0;
 
 	virtual void setFaceImageListener(FaceImageListener* l) = 0;
 	virtual void setVideoListener(VideoListener* l) = 0;
@@ -63,6 +64,7 @@ public:
 	bool requestVideoStart();
 	bool requestVideoEnd();
 	bool requestVideoSource(std::string videoname);
+	bool requestStudentList();
 
 	void setFaceImageListener(FaceImageListener* l)
 	{

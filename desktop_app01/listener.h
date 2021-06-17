@@ -13,6 +13,8 @@ class VideoListener
 public:
 	virtual void onVideoFrameReceive(cv::Mat& image) = 0;
 	virtual void onUserAttend(std::string username) = 0;
+	virtual void onStudentListReceive(std::vector<std::string>& ss) = 0;
+
 };
 
 class UserListener

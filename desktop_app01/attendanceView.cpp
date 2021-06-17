@@ -1,5 +1,6 @@
 #include "attendanceView.h"
 #include "resource.h"
+#include <algorithm>
 
 
 BOOL AttendanceView::eventHandler(HWND hWnd, UINT message, DWORD dwParam)
@@ -95,6 +96,20 @@ void AttendanceView::updateUserAttendance(std::string username)
 	SetDlgItemText(hWnd, IDC_ATTENDANCE_LIST_STATIC, text);
 }
 
+void AttendanceView::updateUserList()
+{
+	WCHAR text[1010] = L"Student List\n";
+	for (std::string& s : studentList)
+	{
+		std::wstring wide_string = std::wstring(s.begin(), s.end());
+		const wchar_t* result = wide_string.c_str();
+		lstrcatW(text, L"\n");
+		lstrcatW(text, result);
+	}
+
+	SetDlgItemText(hWnd, IDC_STUDENT_LIST_STATIC, text);
+}
+
 void AttendanceView::clearUserAttendance()
 {
 	SetDlgItemText(hWnd, IDC_ATTENDANCE_LIST_STATIC, L"Attendance List");
@@ -129,7 +144,7 @@ INT_PTR AttendanceView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 			break;
 		case IDC_VIDEO_CLEAR_BUTTON:
 			acs->clearAttendanceList();
-			clearUserAttendance();
+			acs->fetchStudentList();
 			break;
 		case IDC_TEMP_LIVE_BUTTON:
 			acs->switchToLive();
@@ -156,6 +171,7 @@ AttendanceView::AttendanceView(HINSTANCE hInstance, HWND _hWndParent, Attendance
 
 void AttendanceView::start()
 {
+	acs->fetchStudentList();
 	// initialize
 	show();
 }
@@ -168,4 +184,15 @@ void AttendanceView::onVideoUpdate(cv::Mat& frame)
 void AttendanceView::onAttendanceUpdate(std::string username)
 {
 	updateUserAttendance(username);
+	std::vector<std::string>::iterator it = find(studentList.begin(), studentList.end(), username);
+	if (it != studentList.end())
+		studentList.erase(it);
+	updateUserList();
+}
+
+void AttendanceView::onStudentListUpdate(std::vector<std::string>& ss)
+{
+	studentList = ss;
+	updateUserList();
+	clearUserAttendance();
 }

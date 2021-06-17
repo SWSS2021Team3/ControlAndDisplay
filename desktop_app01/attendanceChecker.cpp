@@ -85,6 +85,11 @@ void AttendanceChecker::endVideo()
 	attendanceController->videoEnd();
 }
 
+void AttendanceChecker::fetchStudentList()
+{
+	attendanceController->fetchStudentList();
+}
+
 void AttendanceChecker::clearAttendanceList()
 {
 	attendanceController->clearList();
