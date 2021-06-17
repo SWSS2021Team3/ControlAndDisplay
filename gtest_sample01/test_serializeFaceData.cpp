@@ -222,3 +222,162 @@ TEST(SerializeFaceData, should_be_equal_saveFaceDB_readFaceDB)
 	EXPECT_EQ(vf2[0].faceId[2], "faceimage3");
 
 }
+
+TEST(SerializeFaceData, large_vector)
+{
+	std::vector<FaceData> faceDB;
+	std::vector<FaceData> vf2;
+
+	{
+		faceDB.emplace_back();
+		FaceData& fd = faceDB.back();
+
+		fd.userId = "user1";
+		fd.faceId.push_back("user1_56476");
+		fd.faceId.push_back("user1_56547");
+		fd.faceId.push_back("user1_56618");
+		fd.faceId.push_back("user1_56689");
+	}
+
+	{
+		faceDB.emplace_back();
+		FaceData& fd = faceDB.back();
+
+		fd.userId = "user2";
+		fd.faceId.push_back("user2_5709");
+		fd.faceId.push_back("user2_57161");
+		fd.faceId.push_back("user2_57242");
+		fd.faceId.push_back("user2_57313");
+		fd.faceId.push_back("user2_57394");
+		fd.faceId.push_back("user2_57765");
+		fd.faceId.push_back("user2_57856");
+		fd.faceId.push_back("user2_57937");
+		fd.faceId.push_back("user2_58028");
+		fd.faceId.push_back("user2_58119");
+
+	}
+
+
+	{
+		faceDB.emplace_back();
+		FaceData& fd = faceDB.back();
+
+		fd.userId = "user3";
+
+		fd.faceId.push_back("user3_5478");
+		fd.faceId.push_back("user3_54821");
+		fd.faceId.push_back("user3_54862");
+		fd.faceId.push_back("user3_54903");
+		fd.faceId.push_back("user3_54944");
+		fd.faceId.push_back("user3_55145");
+		fd.faceId.push_back("user3_55196");
+		fd.faceId.push_back("user3_55247");
+		fd.faceId.push_back("user3_55298");
+		fd.faceId.push_back("user3_55349");
+	}
+
+	{
+		faceDB.emplace_back();
+		FaceData& fd = faceDB.back();
+
+		fd.userId = "user4";
+
+		fd.faceId.push_back("user4_537910");
+		fd.faceId.push_back("user4_538311");
+		fd.faceId.push_back("user4_538512");
+		fd.faceId.push_back("user4_538713");
+	}
+
+	size_t t = SerializableP<std::vector<FaceData>>::serialize_size(faceDB);
+	//EXPECT_EQ(t, 50);
+
+	char* buf = new char[t];
+	SerializableP<std::vector<FaceData>>::serialize(buf, faceDB);
+	SerializableP<std::vector<FaceData>>::deserialize(buf, vf2);
+	delete[] buf;
+
+
+	//EXPECT_EQ(vf2.size(), 4);
+	EXPECT_EQ(vf2[0].userId, "user1");
+	EXPECT_EQ(vf2[0].faceId.size(), 4);
+	EXPECT_EQ(vf2[0].faceId[2], "user1_56618");
+}
+
+
+
+TEST(SerializeFaceData, large_vector_save_load)
+{
+	std::vector<FaceData> faceDB;
+	std::vector<FaceData> vf2;
+
+	{
+		faceDB.emplace_back();
+		FaceData& fd = faceDB.back();
+
+		fd.userId = "user1";
+		fd.faceId.push_back("user1_56476");
+		fd.faceId.push_back("user1_56547");
+		fd.faceId.push_back("user1_56618");
+		fd.faceId.push_back("user1_56689");
+	}
+
+	{
+		faceDB.emplace_back();
+		FaceData& fd = faceDB.back();
+
+		fd.userId = "user2";
+		fd.faceId.push_back("user2_5709");
+		fd.faceId.push_back("user2_57161");
+		fd.faceId.push_back("user2_57242");
+		fd.faceId.push_back("user2_57313");
+		fd.faceId.push_back("user2_57394");
+		fd.faceId.push_back("user2_57765");
+		fd.faceId.push_back("user2_57856");
+		fd.faceId.push_back("user2_57937");
+		fd.faceId.push_back("user2_58028");
+		fd.faceId.push_back("user2_58119");
+
+	}
+
+
+	//{
+	//	faceDB.emplace_back();
+	//	FaceData& fd = faceDB.back();
+
+	//	fd.userId = "user3";
+
+	//	fd.faceId.push_back("user3_5478");
+	//	fd.faceId.push_back("user3_54821");
+	//	fd.faceId.push_back("user3_54862");
+	//	fd.faceId.push_back("user3_54903");
+	//	fd.faceId.push_back("user3_54944");
+	//	fd.faceId.push_back("user3_55145");
+	//	fd.faceId.push_back("user3_55196");
+	//	fd.faceId.push_back("user3_55247");
+	//	fd.faceId.push_back("user3_55298");
+	//	fd.faceId.push_back("user3_55349");
+	//}
+
+	//{
+	//	faceDB.emplace_back();
+	//	FaceData& fd = faceDB.back();
+
+	//	fd.userId = "user4";
+
+	//	fd.faceId.push_back("user4_537910");
+	//	fd.faceId.push_back("user4_538311");
+	//	fd.faceId.push_back("user4_538512");
+	//	fd.faceId.push_back("user4_538713");
+	//}
+
+
+	saveFaceDB(faceDB);
+
+	readFaceDB(vf2);
+
+
+	//EXPECT_EQ(vf2.size(), 4);
+	EXPECT_EQ(vf2[0].userId, "user1");
+	EXPECT_EQ(vf2[0].faceId.size(), 4);
+	EXPECT_EQ(vf2[0].faceId[2], "user1_56618");
+}

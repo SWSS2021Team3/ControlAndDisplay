@@ -70,7 +70,9 @@ public:
     {
         size_t s = 0;
         for (T& v : vs)
+        {
             s += SerializableP<T>::serialize_size(v);
+        }
         return sizeof(size_t) + s;
     }
 
@@ -98,7 +100,7 @@ public:
             T& v = vs.back();
             src = SerializableP<T>::deserialize(src, v);
         }
-        return src + serialize_size(vs);
+        return src;
     }
 };
 
