@@ -168,7 +168,7 @@ int cmsVerify(std::string& sign, std::string& content, std::string& rootca) {
 
     cms = d2i_CMS_ContentInfo(NULL, &cms_der_in, cms_der_length);
     if (cms == NULL) {
-        ret -2;
+        ret = -2;
         goto error_exit;
     }
     bio_content = BIO_new_mem_buf(content.c_str(), (int)content.size());
