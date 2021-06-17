@@ -222,5 +222,14 @@ bool SecurityManagerAcs::readConfig(std::string& ip, std::string& port, std::str
     std::getline(iss, port);
     std::getline(iss, secureport);
 
+    while (ip.size() > 0 && std::isspace(ip.at(ip.size() - 1))) {
+        ip = ip.substr(0, ip.size() - 1);
+    }
+    while (port.size() > 0 && std::isspace(port.at(port.size() - 1))) {
+        port = port.substr(0, port.size() - 1);
+    }
+    while (secureport.size() > 0 && std::isspace(secureport.at(secureport.size() - 1))) {
+        secureport = secureport.substr(0, secureport.size() - 1);
+    }
     return true;
 }
