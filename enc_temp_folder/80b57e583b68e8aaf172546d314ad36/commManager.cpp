@@ -136,6 +136,12 @@ bool CommManager::connect(const string& hostname, string portname, const bool se
 {
 	if (isConnected())
 		disconnect();
+	/*
+	if (secureMode) {
+		int portNum = std::stoi(portname);
+		portNum += 10;
+		portname = std::to_string(portNum);
+	}*/
 
 	if ((connection = OpenTcpConnection(hostname.c_str(), portname.c_str())) == NULL)
 		return false;
