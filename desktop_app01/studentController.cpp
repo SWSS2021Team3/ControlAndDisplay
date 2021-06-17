@@ -20,7 +20,7 @@ bool StudentController::addFace()
 	if (commManager == nullptr) return false;
 
 	int uid = userAuthManager->getCurrentUser().uid;
-	return commManager->requestAddFace(uid, NUMBER_OF_FACES_REQ);
+	return commManager->requestAddFace(uid, NUMBER_OF_FACES_REQ - faces.size());
 }
 
 bool StudentController::deleteFace()
