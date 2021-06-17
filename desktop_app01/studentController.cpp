@@ -56,6 +56,17 @@ void StudentController::onFaceAdd(cv::Mat& faceImage)
 	}
 }
 
+void StudentController::onFaceDelete()
+{
+	if (faces.size() <= 0)
+		return;
+	faces.pop_back();
+	if (viewHandler != nullptr)
+	{
+		viewHandler->onFaceImageUpdate();
+	}
+}
+
 void StudentController::setViewHandler(StudentViewHandler* vh)
 {
 	viewHandler = vh;

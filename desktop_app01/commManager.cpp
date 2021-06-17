@@ -64,6 +64,13 @@ DWORD CommManager::receiver()
 			}
 			break;
 		}
+		case SIGNAL_FM_RESP_FACE_DELETE:
+		{
+			if (faceImageListener != nullptr)
+			{
+				faceImageListener->onFaceDelete();
+			}
+		}
 		case SIGNAL_FM_RESP_VIDEO_FRAME:
 		{
 			cv::Mat frame;
