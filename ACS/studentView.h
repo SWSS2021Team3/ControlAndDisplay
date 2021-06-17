@@ -15,7 +15,8 @@ private:
 	BOOL eventHandler(HWND hWnd, UINT message, DWORD dwParam);
 public:
 	StudentView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecker* ac);
-	void start();
+	~StudentView();
+	ViewState start();
 	void stop();
 	void showFaceImages();
 

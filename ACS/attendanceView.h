@@ -22,7 +22,8 @@ private:
 
 public:
 	AttendanceView(HINSTANCE hInstance, HWND _hWndParent, AttendanceChecker *ac);
-	void start();
+	~AttendanceView();
+	ViewState start();
 
 	void onVideoUpdate(cv::Mat& frame);
 	void onAttendanceUpdate(std::string username);

@@ -54,7 +54,7 @@ bool TcpRecvImageAsJpeg(TTcpConnectedPort * TcpConnectedPort,cv::Mat *Image)
       try {
           cv::imdecode(cv::Mat(imagesize, 1, CV_8UC1, buff), cv::IMREAD_COLOR, Image);
       }
-      catch (cv::Exception& e) {
+      catch (cv::Exception&) {
           ;
       }
      delete [] buff;

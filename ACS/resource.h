@@ -1,11 +1,17 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++에서 생성한 포함 파일입니다.
-// desktop_app01.rc에서 사용되고 있습니다.
+// Microsoft Visual C++ generated include file.
+// Used by ACS.rc
 //
-#define IDD_ATTENDANCE_FORMVIEW         101
-#define IDD_STUDENT_FORMVIEW            102
-#define IDD_ACS_DIALOG                  104
-#define IDD_USER_AUTH_FORMVIEW          105
+#define IDC_MYICON                      2
+#define IDS_APP_TITLE                   103
+#define IDD_USER_AUTH_DIALOG            106
+#define IDI_ACS                         107
+#define IDD_STUDENT_DIALOG              107
+#define IDI_SMALL                       108
+#define IDD_ATTENDANCE_DIALOG           108
+#define IDC_ACS                         109
+#define IDM_ABOUT                       110
+#define IDR_MAINFRAME                   128
 #define IDC_VIDEO_PICTURE_CONTROL       1001
 #define IDC_FACE1                       1002
 #define IDC_FACE2                       1003
@@ -35,14 +41,16 @@
 #define IDC_RECORDED_TEMP_BUTTON        1027
 #define IDC_DELETE_FACE_BUTTON          1028
 #define IDC_STUDENT_LIST_STATIC         1029
+#define IDC_STATIC                      -1
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        107
+#define _APS_NO_MFC                     1
+#define _APS_NEXT_RESOURCE_VALUE        129
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1030
-#define _APS_NEXT_SYMED_VALUE           101
+#define _APS_NEXT_SYMED_VALUE           110
 #endif
 #endif
