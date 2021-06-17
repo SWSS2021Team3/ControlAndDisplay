@@ -71,7 +71,7 @@ void StudentView::showFaceImages()
 
 	int faceIDCs[] = { IDC_FACE1, IDC_FACE2, IDC_FACE3, IDC_FACE4, IDC_FACE5 };
 
-	for (int i=0; i < min(sizeof(faceIDCs) / sizeof(int), frames.size()); i++)
+	for (int i=0; i < sizeof(faceIDCs) / sizeof(int); i++)
 	{
 		cv::Mat frame;
 		//cv::Mat& frame = frames[i];
