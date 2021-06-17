@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// ï¿½Ñ±ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½Ñ¹Î±ï¿½) resources
+// ÇÑ±¹¾î(´ëÇÑ¹Î±¹) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_KOR)
 LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT
@@ -78,7 +78,6 @@ BEGIN
     CONTROL         "",IDC_FACE5,"Static",SS_BLACKFRAME,201,53,46,69
     PUSHBUTTON      "Add Picture",IDC_ADD_FACE_BUTTON,294,51,50,14
     PUSHBUTTON      "Finish",IDC_FINISH_FACE_BUTTON,294,108,50,14
-    PUSHBUTTON      "attendance view (temp)",IDC_TEMP_CONNECT,384,10,87,14
     PUSHBUTTON      "Delete Picture",IDC_DELETE_FACE_BUTTON,294,79,50,14
 END
 
@@ -171,7 +170,7 @@ BEGIN
     0
 END
 
-#endif    // ï¿½Ñ±ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½Ñ¹Î±ï¿½) resources
+#endif    // ÇÑ±¹¾î(´ëÇÑ¹Î±¹) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

@@ -28,9 +28,6 @@ INT_PTR StudentView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 		case IDC_DELETE_FACE_BUTTON:
 			acs->deleteFaceImage();
 			return TRUE;
-		case IDC_TEMP_CONNECT:
-			SendMessage(hWndParent, WM_COMMAND, IDD_ATTENDANCE_FORMVIEW, NULL);
-			return TRUE;
 		case IDC_FINISH_FACE_BUTTON:
 			stop();
 			return TRUE;
