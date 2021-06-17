@@ -12,6 +12,8 @@ public:
 	MOCK_METHOD(bool, login, (const string& username, const string& password), (override));
 	MOCK_METHOD(bool, requestFaces, (const int uid), (override));
 	MOCK_METHOD(bool, requestAddFace, (const int uid, const int numberOfImages), (override));
+	MOCK_METHOD(bool, requestDelFace, (const int uid, const int fid), (override));
+
 	MOCK_METHOD(void, disconnect, (), (override));
 	MOCK_METHOD(bool, requestVideoStart, (), (override));
 	MOCK_METHOD(bool, requestVideoEnd, (), (override));

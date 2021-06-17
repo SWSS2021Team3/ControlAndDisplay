@@ -33,6 +33,7 @@
 #define IDC_ATTENDANCE_LIST_STATIC      1025
 #define IDC_TEMP_LIVE_BUTTON            1026
 #define IDC_RECORDED_TEMP_BUTTON        1027
+#define IDC_DELETE_FACE_BUTTON          1028
 
 // Next default values for new objects
 // 
@@ -40,7 +41,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        107
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1028
+#define _APS_NEXT_CONTROL_VALUE         1029
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

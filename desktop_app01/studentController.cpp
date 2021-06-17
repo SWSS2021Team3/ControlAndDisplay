@@ -23,6 +23,16 @@ bool StudentController::addFace()
 	return commManager->requestAddFace(uid, NUMBER_OF_FACES_REQ);
 }
 
+bool StudentController::deleteFace()
+{
+	if (userAuthManager == nullptr) return false;
+	if (commManager == nullptr) return false;
+
+	int uid = userAuthManager->getCurrentUser().uid;
+	int fid = 0;	//Delete Last one
+	return commManager->requestDelFace(uid, fid);
+}
+
 std::vector<cv::Mat>& StudentController::getFaces()
 {
 	return faces;

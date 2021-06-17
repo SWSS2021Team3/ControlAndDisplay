@@ -30,6 +30,7 @@ public:
 	void logout();
 	void fetchFaceImages();
 	void addFaceImage();
+	void deleteFaceImage();
 	vector<cv::Mat>& getFaces();
 
 	void startVideo();

@@ -17,6 +17,7 @@ public:
 	virtual bool login(const string& username, const string& password) = 0;
 	virtual bool requestFaces(const int uid) = 0;
 	virtual bool requestAddFace(const int uid, const int numberOfImages) = 0;
+	virtual bool requestDelFace(const int uid, const int fid) = 0;
 	virtual void disconnect() = 0;
 	virtual bool requestVideoStart() = 0;
 	virtual bool requestVideoEnd() = 0;
@@ -54,6 +55,7 @@ public:
 	bool login(const string& username, const string& password);
 	bool requestFaces(const int uid);
 	bool requestAddFace(const int uid, const int numberOfImages);
+	bool requestDelFace(const int uid, const int fid);
 	void disconnect();
 	bool isConnected();
 	bool recvVideo(cv::Mat* frame);

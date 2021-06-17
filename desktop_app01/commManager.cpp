@@ -200,6 +200,11 @@ bool CommManager::requestAddFace(const int uid, const int numberOfImages)
 	return send(SIGNAL_FM_REQ_FACE_ADD, numberOfImages, std::to_string(uid));
 }
 
+bool CommManager::requestDelFace(const int uid, const int fid)
+{
+	return send(SIGNAL_FM_REQ_FACE_DELETE, std::to_string(uid));
+}
+
 bool CommManager::isConnected()
 {
 	return connection != nullptr;

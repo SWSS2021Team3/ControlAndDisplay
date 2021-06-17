@@ -51,6 +51,11 @@ void AttendanceChecker::addFaceImage()
 	studentController->addFace();
 }
 
+void AttendanceChecker::deleteFaceImage()
+{
+	studentController->deleteFace();
+}
+
 vector<cv::Mat>& AttendanceChecker::getFaces()
 {
 	return studentController->getFaces();
