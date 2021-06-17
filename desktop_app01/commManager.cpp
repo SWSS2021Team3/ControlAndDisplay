@@ -70,6 +70,7 @@ DWORD CommManager::receiver()
 			{
 				faceImageListener->onFaceDelete();
 			}
+			break;
 		}
 		case SIGNAL_FM_RESP_VIDEO_FRAME:
 		{
@@ -82,6 +83,7 @@ DWORD CommManager::receiver()
 					videoListener->onVideoFrameReceive(frame);
 				}
 			}
+			break;
 		}
 		case SIGNAL_FM_RESP_USER_ATTEND:
 		{

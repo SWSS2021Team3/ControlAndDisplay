@@ -67,11 +67,22 @@ void StudentView::showFaceImages()
 {
 	vector<cv::Mat> & frames = acs->getFaces();
 
+	cv::Mat empty_frame = cv::Mat::zeros(160, 160, CV_8UC1);
+
 	int faceIDCs[] = { IDC_FACE1, IDC_FACE2, IDC_FACE3, IDC_FACE4, IDC_FACE5 };
 
 	for (int i=0; i < min(sizeof(faceIDCs) / sizeof(int), frames.size()); i++)
 	{
-		cv::Mat& frame = frames[i];
+		cv::Mat frame;
+		//cv::Mat& frame = frames[i];
+		if (i >= frames.size())
+		{
+			frame = empty_frame;
+		}
+		else
+		{
+			frame = frames[i];
+		}
 
 		int bpp = 8 * (int)frame.elemSize();
 
