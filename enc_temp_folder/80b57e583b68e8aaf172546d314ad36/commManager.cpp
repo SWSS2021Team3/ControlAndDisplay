@@ -103,19 +103,6 @@ DWORD CommManager::receiver()
 				userListener->onUserLogin(false, 0, "");
 			break;
 		}
-		case SIGNAL_FM_RESP_STUDENT_LIST:
-		{
-			vector<string> studentList;
-			responseResult = TcpRecvStringVector(&conn, studentList);
-			if (responseResult)
-			{
-				if (videoListener != nullptr)
-				{
-					videoListener->onStudentListReceive(studentList);
-				}
-			}
-			break;
-		}
 		default:
 			break;
 		}
@@ -149,6 +136,12 @@ bool CommManager::connect(const string& hostname, string portname, const bool se
 {
 	if (isConnected())
 		disconnect();
+	/*
+	if (secureMode) {
+		int portNum = std::stoi(portname);
+		portNum += 10;
+		portname = std::to_string(portNum);
+	}*/
 
 	if ((connection = OpenTcpConnection(hostname.c_str(), portname.c_str())) == NULL)
 		return false;
@@ -253,11 +246,6 @@ bool CommManager::requestVideoSource(std::string videoname)
 	if (videoname == "live")
 		return send(SIGNAL_FM_REQ_VIDEO_LIVE);
 	return send(SIGNAL_FM_REQ_VIDEO_RECORD, videoname);
-}
-
-bool CommManager::requestStudentList()
-{
-	return send(SIGNAL_FM_REQ_STUDENT_LIST);
 }
 
 void CommManager::disconnect()

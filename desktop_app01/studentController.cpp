@@ -20,7 +20,7 @@ bool StudentController::addFace()
 	if (commManager == nullptr) return false;
 
 	int uid = userAuthManager->getCurrentUser().uid;
-	return commManager->requestAddFace(uid, NUMBER_OF_FACES_REQ);
+	return commManager->requestAddFace(uid, NUMBER_OF_FACES_REQ - faces.size());
 }
 
 bool StudentController::deleteFace()
@@ -50,6 +50,17 @@ void StudentController::onFaceImageReceive(cv::Mat& faceImage)
 void StudentController::onFaceAdd(cv::Mat& faceImage)
 {
 	faces.push_back(faceImage);
+	if (viewHandler != nullptr)
+	{
+		viewHandler->onFaceImageUpdate();
+	}
+}
+
+void StudentController::onFaceDelete()
+{
+	if (faces.size() <= 0)
+		return;
+	faces.pop_back();
 	if (viewHandler != nullptr)
 	{
 		viewHandler->onFaceImageUpdate();

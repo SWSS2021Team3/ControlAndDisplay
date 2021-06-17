@@ -7,7 +7,7 @@ public:
     SecurityManagerAcs();
     void* getSecureNeworkContext();
     int freeSecureNetworkContext(void* p);
-    void setNetworkSd(void* p, int sd);
+    int setNetworkSd(void* p, int sd);
     bool readKey();
     bool readConfig(std::string& ip, std::string& port, std::string& secureport);
 

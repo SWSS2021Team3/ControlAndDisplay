@@ -39,7 +39,13 @@ INT_PTR UserAuthView::DlgProc(UINT message, WPARAM wParam, LPARAM lParam)
 			//WCHAR s[300];
 			//wsprintf(s, L"Login button clicked! %d %s %s %d %d", secureMode, username, password, c1, c2);
 			//MessageBox(hWnd, s, L"", MB_OK);
-			acs->login(wstr2string(username), wstr2string(password), secureMode);
+			int ret = acs->login(wstr2string(username), wstr2string(password), secureMode);
+			if (ret == -1024) {
+				MessageBox(hWnd, _T("Unable Acess USB Key. Not Connected"), _T("Warning"), MB_OK | MB_ICONERROR);
+			}
+			else if (ret == -1025) {
+				MessageBox(hWnd, _T("Configuration file is missing or changed. Not Connected"), _T("Warning"), MB_OK | MB_ICONERROR);
+			}
 			return TRUE;
 		}
 		//// manual radio button group

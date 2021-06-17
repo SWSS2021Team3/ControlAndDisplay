@@ -28,6 +28,7 @@ public:
 
 	void onFaceImageReceive(cv::Mat& faceImage);
 	void onFaceAdd(cv::Mat& faceImage);
+	void onFaceDelete();
 
 	void setViewHandler(StudentViewHandler* vh);
 };
